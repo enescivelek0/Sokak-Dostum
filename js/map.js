@@ -1,12 +1,14 @@
 /**
- * SokakDostum - Leaflet Harita Kontrolörü
- * Tam ekran interaktif harita, özel pinler ve reaktif marker senkronizasyonu
+ * SokakDostum - Leaflet & Mapbox Harita Kontrolörü
+ * Tam ekran interaktif harita, çoklu katman (Sokak, Uydu, Gece), özel pinler ve reaktif senkronizasyon
  */
 
 class SokakDostumMap {
   constructor(containerId = 'map-container') {
     this.containerId = containerId;
     this.map = null;
+    this.currentTileLayer = null;
+    this.currentStyle = 'streets'; // 'streets' | 'satellite' | 'dark'
     this.markers = [];
     this.pickMarker = null;
     this.isPickMode = false;
@@ -23,14 +25,12 @@ class SokakDostumMap {
       attributionControl: false
     }).setView([41.015, 28.99], 13);
 
-    // Modern Voyager açık gri katman
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19,
-      subdomains: 'abcd'
-    }).addTo(this.map);
-
     // Zoom kontrolü sağ üst köşeye
     L.control.zoom({ position: 'topright' }).addTo(this.map);
+
+    // İlk katmanı yükle (Mapbox veya Açık Kaynak Yedek)
+    const initialStyle = (window.APP_CONFIG && window.APP_CONFIG.DEFAULT_MAP_STYLE) || 'streets';
+    this.setMapStyle(initialStyle);
 
     // Harita tıklama dinleyicisi
     this.map.on('click', (e) => {
@@ -50,6 +50,66 @@ class SokakDostumMap {
     // Pencere boyutu değiştiğinde haritayı yenile
     window.addEventListener('resize', () => {
       if (this.map) this.map.invalidateSize();
+    });
+  }
+
+  setMapStyle(styleName) {
+    this.currentStyle = styleName;
+    const config = window.APP_CONFIG || {};
+    const token = (config.MAPBOX_TOKEN || '').trim();
+    const providers = config.TILE_PROVIDERS || {};
+
+    let tileUrl = '';
+    let maxZoom = 19;
+    let subdomains = 'abc';
+
+    // Mapbox Token tanımlıysa Mapbox Vektörel Katmanları Kullan
+    if (token && token.startsWith('pk.')) {
+      if (styleName === 'satellite') {
+        tileUrl = providers.mapboxSatellite ? providers.mapboxSatellite(token) : '';
+      } else if (styleName === 'dark') {
+        tileUrl = providers.mapboxDark ? providers.mapboxDark(token) : '';
+      } else {
+        tileUrl = providers.mapboxStreets ? providers.mapboxStreets(token) : '';
+      }
+    } else {
+      // Token yoksa veya geçersizse Kesintisiz Açık Kaynak Yedekler
+      if (styleName === 'satellite') {
+        tileUrl = providers.esriSatellite || 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+      } else if (styleName === 'dark') {
+        tileUrl = providers.cartoDark || 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png';
+        subdomains = 'abcd';
+      } else {
+        tileUrl = providers.osmStreets || 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        subdomains = 'abcd';
+      }
+    }
+
+    // Eski katmanı kaldır
+    if (this.currentTileLayer) {
+      this.map.removeLayer(this.currentTileLayer);
+    }
+
+    // Yeni katmanı ekle
+    this.currentTileLayer = L.tileLayer(tileUrl, {
+      maxZoom: maxZoom,
+      subdomains: subdomains
+    }).addTo(this.map);
+
+    // UI butonlarının aktiflik durumunu güncelle
+    this.updateStyleButtonsUI(styleName);
+  }
+
+  updateStyleButtonsUI(activeStyle) {
+    const btns = document.querySelectorAll('[data-map-layer]');
+    btns.forEach(b => {
+      if (b.getAttribute('data-map-layer') === activeStyle) {
+        b.classList.add('bg-emerald-600', 'text-white', 'shadow-xs');
+        b.classList.remove('bg-white/90', 'text-slate-700');
+      } else {
+        b.classList.remove('bg-emerald-600', 'text-white', 'shadow-xs');
+        b.classList.add('bg-white/90', 'text-slate-700');
+      }
     });
   }
 
@@ -107,7 +167,11 @@ class SokakDostumMap {
       icon = '🏠';
     }
 
-    if (report.status === 'resolved') {
+    if (report.status === 'adopted') {
+      pinColor = 'bg-purple-600';
+      pulseClass = '';
+      icon = '🎉';
+    } else if (report.status === 'archived' || report.status === 'resolved') {
       pinColor = 'bg-slate-400';
       pulseClass = '';
       icon = '✓';
@@ -128,7 +192,7 @@ class SokakDostumMap {
           <img src="${report.image}" alt="${report.title}" class="w-full h-full object-cover" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(report.type)}'"/>
           <div class="absolute top-2 left-2">
             <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-white/95 text-slate-800 shadow-sm">
-              ${report.urgency === 'critical' ? '🚨 Hayati' : report.urgency === 'injured' ? '🩹 Yaralı' : report.urgency === 'hungry' ? '🥣 Mama' : '🏠 Yuva'}
+              ${report.status === 'adopted' ? '🎉 Yuva Buldu' : (report.urgency === 'critical' ? '🚨 Hayati' : report.urgency === 'injured' ? '🩹 Yaralı' : report.urgency === 'hungry' ? '🥣 Mama' : '🏠 Yuva')}
             </span>
           </div>
         </div>
