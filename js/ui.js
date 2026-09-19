@@ -711,6 +711,27 @@ class SokakDostumUI {
     }
   }
 
+  shareApp() {
+    const shareData = {
+      title: 'SokakDostum - Sokak Hayvanları Acil Haritası & Dayanışma Ağı',
+      text: 'Sokak hayvanları için kayıtsız acil vaka bildirimi, 7/24 nöbetçi veterinerler ve mama odakları interaktif haritası 🐾',
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch(() => {
+        this.fallbackShareApp(shareData);
+      });
+    } else {
+      this.fallbackShareApp(shareData);
+    }
+  }
+
+  fallbackShareApp(shareData) {
+    const text = `${shareData.title}\n\n${shareData.text}\n\n${shareData.url}`;
+    window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
+  }
+
   addSupport(reportId, text) {
     window.sokakStore.addSupportAction(reportId, text);
     this.showToast('🐾 Desteğiniz kaydedildi!');

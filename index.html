@@ -180,19 +180,52 @@
     </div>
 
     <!-- Panel Sabit Alt Barı: Telif & Gizlilik Politikası Butonu -->
-    <div id="panel-footer-bar" class="px-3.5 py-2 border-t border-slate-200/70 bg-white/90 backdrop-blur-xs shrink-0 flex items-center justify-between text-[11px]">
-      <span class="font-bold text-slate-700">SokakDostum</span>
-      <div class="flex items-center gap-2.5 font-semibold text-slate-600">
-        <button onclick="window.sokakUI.openFirstAidModal()" class="hover:text-red-600 transition flex items-center gap-1">
-          <span>🩹</span> İlk Yardım
-        </button>
-        <span class="text-slate-300">|</span>
-        <button onclick="window.sokakUI.openPolicyModal()" class="text-orange-600 hover:text-orange-800 transition flex items-center gap-1">
-          <span>🛡️</span> İlkeler
-        </button>
+    <div id="panel-footer-bar" class="px-3.5 py-2.5 border-t border-slate-200/70 bg-white/95 backdrop-blur-xs shrink-0 flex flex-col gap-1.5 text-[11px]">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5 font-bold text-slate-800">
+          <span>🐾</span>
+          <span>SokakDostum</span>
+          <span class="text-[9px] font-extrabold px-1.5 py-0.2 rounded-full bg-orange-100 text-orange-800">Dayanışma</span>
+        </div>
+        <div class="flex items-center gap-2 font-semibold text-slate-600">
+          <button onclick="window.sokakUI.openFirstAidModal()" class="hover:text-red-600 transition flex items-center gap-1">
+            <span>🩹</span> İlk Yardım
+          </button>
+          <span class="text-slate-300">|</span>
+          <button onclick="window.sokakUI.openPolicyModal()" class="text-orange-600 hover:text-orange-800 transition flex items-center gap-1">
+            <span>🛡️</span> İlkeler
+          </button>
+          <span class="text-slate-300">|</span>
+          <button onclick="window.sokakUI.shareApp()" class="text-emerald-600 hover:text-emerald-800 transition flex items-center gap-0.5">
+            <span>💬</span> Paylaş
+          </button>
+        </div>
       </div>
+      <p class="text-[10px] text-slate-400 text-center leading-tight">
+        Kâr amacı gütmeyen açık kaynak inisiyatiftir. Para / bağış kabul edilmez.
+      </p>
     </div>
   </aside>
+
+  <!-- 4. MASAÜSTÜ ALT YÜZEN FOOTER (DESKTOP FLOATING FOOTER) -->
+  <footer id="desktop-floating-footer" class="hidden md:flex fixed bottom-3.5 right-4 z-20 items-center gap-3 glass-pill px-4 py-2 rounded-2xl shadow-xl border border-white/80 text-xs font-semibold text-slate-600 pointer-events-auto">
+    <div class="flex items-center gap-1.5 font-bold text-slate-800">
+      <span class="text-sm">🐾</span>
+      <span>SokakDostum</span>
+    </div>
+    <span class="text-slate-300">|</span>
+    <button onclick="window.sokakUI.openFirstAidModal()" class="hover:text-red-600 transition flex items-center gap-1" title="Acil İlk Yardım">
+      <span>🩹</span> İlk Yardım
+    </button>
+    <button onclick="window.sokakUI.openPolicyModal()" class="hover:text-orange-600 transition flex items-center gap-1" title="Kullanım İlkeleri ve Gizlilik">
+      <span>🛡️</span> İlkeler
+    </button>
+    <button onclick="window.sokakUI.shareApp()" class="hover:text-emerald-600 transition flex items-center gap-1" title="SokakDostum'u Paylaş">
+      <span>📢</span> Paylaş
+    </button>
+    <span class="text-slate-300">|</span>
+    <span class="text-[11px] text-slate-400 font-normal">© 2026 • Gönüllü Açık Ağ</span>
+  </footer>
 
   <!-- 4. MODAL 1: KAYITSIZ HIZLI VAKA BİLDİRİMİ -->
   <div id="new-report-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
