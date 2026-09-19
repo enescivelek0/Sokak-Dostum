@@ -224,13 +224,11 @@ class SokakDostumMap {
         <div class="p-3">
           <h4 class="font-bold text-slate-900 text-xs line-clamp-1 mb-1">${safeTitle}</h4>
           <p class="text-[11px] text-slate-500 line-clamp-2 mb-2.5">${safeDesc}</p>
-          <div class="flex items-center gap-1.5 pt-2 border-t border-slate-100">
-            <button onclick="window.sokakUI.openReportDetailModal('${report.id}')" class="flex-1 py-1.5 px-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-lg text-[11px] font-bold transition text-center shadow-xs">
-              İncele & Destek
+          <div class="pt-2 border-t border-slate-100">
+            <button onclick="window.sokakUI.openReportDetailModal('${report.id}')" class="w-full py-2 px-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs">
+              <span>🐾</span>
+              <span>Detayı Gör & Destek Ol</span>
             </button>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=${report.lat},${report.lng}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition text-center">
-              Yol Tarifi
-            </a>
           </div>
         </div>
       </div>

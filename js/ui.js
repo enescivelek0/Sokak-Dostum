@@ -344,14 +344,11 @@ class SokakDostumUI {
                     ` : `<span class="text-slate-400">👤 ${safeContact}</span>`}
                   </div>
 
-                  <div class="flex items-center gap-1">
-                    <button onclick="window.sokakUI.openNavigation(${r.lat}, ${r.lng})" class="py-1 px-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-[11px] font-bold transition" title="Google Maps Rota">
-                      🧭 Rota
-                    </button>
-                    <button onclick="window.sokakUI.focusItem(${r.lat}, ${r.lng}, '${r.id}')" class="py-1 px-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition" title="Haritada Odaklan">
+                  <div class="flex items-center gap-1.5">
+                    <button onclick="window.sokakUI.focusItem(${r.lat}, ${r.lng}, '${r.id}')" class="py-1 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition" title="Haritada Odaklan">
                       Harita
                     </button>
-                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
+                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
                       Detay
                     </button>
                   </div>
@@ -657,7 +654,7 @@ class SokakDostumUI {
             </button>
             <button onclick="window.sokakUI.openNavigation(${report.lat}, ${report.lng})" class="py-2.5 px-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 active:scale-95 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
               <span class="text-sm">🧭</span>
-              <span>Yol Tarifi Al</span>
+              <span>Rota & Yol Tarifi Al</span>
             </button>
           </div>
 
