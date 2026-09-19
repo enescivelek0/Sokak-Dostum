@@ -163,6 +163,9 @@ class SokakDostumMap {
       pinColor = 'bg-red-500';
       pulseClass = 'pin-pulse-critical';
       icon = '🚨';
+    } else if (report.urgency === 'transit') {
+      pinColor = 'bg-indigo-600';
+      icon = '🚗';
     } else if (report.urgency === 'injured') {
       pinColor = 'bg-orange-500';
       icon = '🩹';
@@ -181,6 +184,13 @@ class SokakDostumMap {
       icon = '✓';
     }
 
+    let popupBadge = '🥣 Mama';
+    if (report.status === 'adopted') popupBadge = '🎉 Yuva Buldu';
+    else if (report.urgency === 'critical') popupBadge = '🚨 Hayati';
+    else if (report.urgency === 'transit') popupBadge = '🚗 Araç Lazım';
+    else if (report.urgency === 'injured') popupBadge = '🩹 Yaralı';
+    else if (report.urgency === 'shelter') popupBadge = '🏠 Yuva';
+
     const pinIcon = L.divIcon({
       className: 'custom-pin',
       html: `<div class="pin-bubble ${pinColor} ${pulseClass} text-white">${icon}</div>`,
@@ -196,7 +206,7 @@ class SokakDostumMap {
           <img src="${report.image}" alt="${report.title}" class="w-full h-full object-cover" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(report.type)}'"/>
           <div class="absolute top-2 left-2">
             <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-white/95 text-slate-800 shadow-sm">
-              ${report.status === 'adopted' ? '🎉 Yuva Buldu' : (report.urgency === 'critical' ? '🚨 Hayati' : report.urgency === 'injured' ? '🩹 Yaralı' : report.urgency === 'hungry' ? '🥣 Mama' : '🏠 Yuva')}
+              ${popupBadge}
             </span>
           </div>
         </div>

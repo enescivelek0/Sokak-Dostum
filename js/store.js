@@ -3,7 +3,7 @@
  * Veri yönetimi, yerel depolama, gizlilik ve arşivleme altyapısı
  */
 
-const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v3';
+const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v4';
 
 function createAnimalSVG(type) {
   let icon = '🐾';
@@ -106,6 +106,23 @@ const INITIAL_REPORTS = [
     createdAt: new Date(Date.now() - 48 * 3600 * 1000).toISOString(),
     supportCount: 6,
     supports: ['Geçici yuva sağlandı', 'Sahiplendirildi 🎉']
+  },
+  {
+    id: 'rep-6',
+    title: 'Acil araç desteği lazım - Kliniğe nakil edilecek',
+    type: 'kedi',
+    urgency: 'transit',
+    lat: 41.0360,
+    lng: 28.9870,
+    locationName: 'Beyoğlu, Taksim Gezi Parkı civarı',
+    description: 'Araba motorundan yavru kedi çıkarıldı. En yakın kliniğe acil araçla götürülmesi gerek, taşıma kutusu mevcut.',
+    image: 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&auto=format&fit=crop&q=80',
+    instagram: 'taksim_patileri',
+    contactName: 'Can',
+    status: 'active',
+    createdAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+    supportCount: 2,
+    supports: ['Kedi güvene alındı, araç bekleniyor']
   }
 ];
 
