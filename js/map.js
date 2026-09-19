@@ -23,7 +23,7 @@ class SokakDostumMap {
     this.map = L.map(this.containerId, {
       zoomControl: false,
       attributionControl: false
-    }).setView([41.015, 28.99], 13);
+    }).setView([41.028, 28.995], 13);
 
     // İlk katmanı yükle (Mapbox veya Açık Kaynak Yedek)
     const initialStyle = (window.APP_CONFIG && window.APP_CONFIG.DEFAULT_MAP_STYLE) || 'streets';

@@ -3,7 +3,7 @@
  * Veri yönetimi, yerel depolama, gizlilik ve arşivleme altyapısı
  */
 
-const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v5';
+const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v6';
 
 function createAnimalSVG(type) {
   let icon = '🐾';
@@ -81,8 +81,8 @@ const INITIAL_REPORTS = [
     title: 'Terkedilmiş golden kırması köpek - Yuva Aranıyor',
     type: 'kopek',
     urgency: 'shelter',
-    lat: 40.9882,
-    lng: 29.0255,
+    lat: 40.9835,
+    lng: 29.0290,
     locationName: 'Kadıköy, Moda Sahil Parkı',
     description: 'Kırmızı tasması var, çok uysal ve insan canlısı. Yağmurda sığınacak sıcak bir yuva arıyor.',
     image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&auto=format&fit=crop&q=80',
@@ -98,8 +98,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil fırtınasında kulübeleri yıkılan canlar için mama desteği',
     type: 'kopek',
     urgency: 'hungry',
-    lat: 40.9690,
-    lng: 29.0550,
+    lat: 40.9680,
+    lng: 29.0620,
     locationName: 'Kadıköy, Caddebostan Sahil',
     description: 'Sahildeki besleme alanındaki mama kapları fırtınada uçmuş. Acil kuru mama takviyesi yapacak gönüllüler aranıyor.',
     image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format&fit=crop&q=80',
@@ -168,8 +168,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil kayalıklarında ayağı misinaya dolanmış martı',
     type: 'kus',
     urgency: 'critical',
-    lat: 41.0485,
-    lng: 29.0270,
+    lat: 41.0480,
+    lng: 29.0240,
     locationName: 'Beşiktaş, Ortaköy Sahili',
     description: 'Ayağına olta ipi ve kanca dolanmış, uçamıyor. Yakalayıp ipi kesecek veya veterinere götürecek yardımsever aranıyor.',
     image: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&auto=format&fit=crop&q=80',
@@ -328,7 +328,7 @@ const INITIAL_REPORTS = [
     type: 'kedi',
     urgency: 'shelter',
     lat: 41.0505,
-    lng: 29.0520,
+    lng: 29.0490,
     locationName: 'Üsküdar, Çengelköy Çınaraltı',
     description: 'Tedavisi tamamlanan uysal Çengelköy kedimiz yeni yuvasında çok mutlu!',
     image: 'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?w=600&auto=format&fit=crop&q=80',
@@ -363,8 +363,8 @@ const INITIAL_REPORTS = [
     title: 'Trafikte ezilme tehlikesi atlatan yavru kedi - Acil Nakil',
     type: 'kedi',
     urgency: 'transit',
-    lat: 41.1080,
-    lng: 29.0520,
+    lat: 41.1085,
+    lng: 29.0490,
     locationName: 'Sarıyer, Emirgan Sahil Yolu',
     description: 'Sahil yolunda orta refüjde sıkışmış halde bulundu. Taşıma çantasına aldık, kliniğe götürecek araç desteği rica ediyoruz.',
     image: 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600&auto=format&fit=crop&q=80',
@@ -382,8 +382,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil kayalıklarında düşüp sıkışan yaralı kedi',
     type: 'kedi',
     urgency: 'critical',
-    lat: 40.9590,
-    lng: 28.8280,
+    lat: 40.9635,
+    lng: 28.8310,
     locationName: 'Bakırköy, Yeşilköy Sahil Parkı',
     description: 'Kayaların arasına düşmüş, arka bacağı ezilmiş. Çevredekilerce çıkarıldı, acil cerrahi müdahale gerekiyor.',
     image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80',
@@ -418,8 +418,8 @@ const INITIAL_REPORTS = [
     title: 'Bacağında derin kesik olan sokak canı - Acil Dikiş & Tedavi',
     type: 'kopek',
     urgency: 'critical',
-    lat: 40.9230,
-    lng: 29.1310,
+    lat: 40.9300,
+    lng: 29.1360,
     locationName: 'Maltepe, Maltepe Sahil Dolgu Parkı',
     description: 'Kırık cam veya tele takılmış, bacağında ciddi kanama var. Baskı yapıldı ama kliniğe acil dikiş için nakil gerekiyor.',
     image: 'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=600&auto=format&fit=crop&q=80',
@@ -490,8 +490,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil kayalıklarında titreyen yavru köpek için barınma',
     type: 'kopek',
     urgency: 'shelter',
-    lat: 40.8920,
-    lng: 29.1850,
+    lat: 40.8950,
+    lng: 29.1890,
     locationName: 'Kartal, Sahil Kordonboyu',
     description: 'Yağmurda ıslanmış ve üşümüş halde bulundu. Kurulandı, karnı doyuruldu ancak acil başını sokacak bir yuva lazım.',
     image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&auto=format&fit=crop&q=80',
@@ -581,8 +581,8 @@ const INITIAL_REPORTS = [
     title: 'Marina civarında terkedilmiş yaşlı can için sıcak yuva',
     type: 'kopek',
     urgency: 'shelter',
-    lat: 40.8750,
-    lng: 29.2320,
+    lat: 40.8805,
+    lng: 29.2350,
     locationName: 'Pendik, Pendik Marina Sahil Parkı',
     description: 'Gözleri az görüyor, çok sakin ve uslu. Sokak köpeklerinden korkuyor, kalan ömrünü sıcak bir evde geçirmeli.',
     image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format&fit=crop&q=80',
@@ -657,8 +657,8 @@ const INITIAL_REPORTS = [
     title: 'İskele meydanında kanadı incinmiş martı',
     type: 'kus',
     urgency: 'injured',
-    lat: 40.8745,
-    lng: 29.1280,
+    lat: 40.8740,
+    lng: 29.1265,
     locationName: 'Adalar, Büyükada İskele Meydanı',
     description: 'Yere inmiş, kalkamıyor. Adaya gelen veya adadaki veteriner hekimle irtibat kurulması rica olunur.',
     image: 'https://images.unsplash.com/photo-1522858547137-f1dcec554f55?w=600&auto=format&fit=crop&q=80',
@@ -736,7 +736,7 @@ const VETERINARIANS = [
     phone: '0212 258 77 88',
     isOpen247: true,
     lat: 41.0495,
-    lng: 29.0250,
+    lng: 29.0225,
     badge: '7/24 Nöbetçi Cerrah'
   },
 
@@ -793,7 +793,7 @@ const VETERINARIANS = [
     isOpen247: false,
     hours: '09:00 - 21:30',
     lat: 41.0510,
-    lng: 29.0535,
+    lng: 29.0495,
     badge: 'Kanatlı & Egzotik Uzmanı'
   },
 
@@ -805,7 +805,7 @@ const VETERINARIANS = [
     phone: '0212 242 33 44',
     isOpen247: true,
     lat: 41.1550,
-    lng: 29.0490,
+    lng: 29.0440,
     badge: '7/24 Acil Müdahale'
   },
   {
@@ -815,7 +815,7 @@ const VETERINARIANS = [
     phone: '0212 299 80 80',
     isOpen247: true,
     lat: 41.1370,
-    lng: 29.0470,
+    lng: 29.0425,
     badge: 'Tam Donanımlı Hastane'
   },
 
@@ -837,8 +837,8 @@ const VETERINARIANS = [
     phone: '0212 663 12 12',
     isOpen247: false,
     hours: '09:00 - 22:00',
-    lat: 40.9630,
-    lng: 28.8290,
+    lat: 40.9650,
+    lng: 28.8310,
     badge: 'Sokak Hayvanı Kliniği'
   },
 
@@ -909,8 +909,8 @@ const VETERINARIANS = [
     address: 'Batı Mah. Erol Kaya Cad. No:32, Pendik',
     phone: '0216 390 12 34',
     isOpen247: true,
-    lat: 40.8790,
-    lng: 29.2310,
+    lat: 40.8815,
+    lng: 29.2325,
     badge: '7/24 Açık Nöbetçi'
   },
 
@@ -934,8 +934,8 @@ const SOLIDARITY_POINTS = [
     name: 'Kadıköy Sahil Mama Odağı',
     type: 'mama_noktasi',
     address: 'Moda İskelesi yanı, Kadıköy',
-    lat: 40.9805,
-    lng: 29.0245,
+    lat: 40.9830,
+    lng: 29.0285,
     status: 'Dolu (Bugün 08:30)'
   },
   {
@@ -1016,8 +1016,8 @@ const SOLIDARITY_POINTS = [
     name: 'Balat Sahil Parkı Kedi Evleri',
     type: 'mama_noktasi',
     address: 'Balat Sahil Parkı Haliç Kıyısı, Fatih',
-    lat: 41.0320,
-    lng: 28.9490,
+    lat: 41.0310,
+    lng: 28.9465,
     status: 'Gönüllülerce Dolduruldu'
   },
 
@@ -1048,7 +1048,7 @@ const SOLIDARITY_POINTS = [
     type: 'mama_noktasi',
     address: 'Emirgan Korusu alt kapı, Sarıyer',
     lat: 41.1090,
-    lng: 29.0530,
+    lng: 29.0495,
     status: 'Mama ve Su Mevcut'
   },
   {
@@ -1057,7 +1057,7 @@ const SOLIDARITY_POINTS = [
     type: 'mama_noktasi',
     address: 'Haydar Aliyev Cad. Balıkçılar yanı, Sarıyer',
     lat: 41.1420,
-    lng: 29.0490,
+    lng: 29.0460,
     status: 'Dolu (Bugün 10:00)'
   },
 
@@ -1067,8 +1067,8 @@ const SOLIDARITY_POINTS = [
     name: 'Yeşilköy Sahil Parkı Kedi Parkı',
     type: 'mama_noktasi',
     address: 'Yeşilköy Sahil Yürüyüş Yolu, Bakırköy',
-    lat: 40.9610,
-    lng: 28.8270,
+    lat: 40.9635,
+    lng: 28.8315,
     status: 'Mama Kulübeleri Kontrol Edildi'
   },
   {
@@ -1087,8 +1087,8 @@ const SOLIDARITY_POINTS = [
     name: 'Maltepe Şehir Parkı Pati Noktası',
     type: 'mama_noktasi',
     address: 'Maltepe Sahil Etkinlik Alanı Kıyı Bandı, Maltepe',
-    lat: 40.9250,
-    lng: 29.1300,
+    lat: 40.9310,
+    lng: 29.1365,
     status: 'Mama Bırakıldı'
   },
 
@@ -1110,8 +1110,8 @@ const SOLIDARITY_POINTS = [
     name: 'Kartal Sahil Parkı Besleme Alanı',
     type: 'mama_noktasi',
     address: 'Kartal Sahil Şeridi İskele Yanı, Kartal',
-    lat: 40.8930,
-    lng: 29.1860,
+    lat: 40.8955,
+    lng: 29.1895,
     status: 'Su ve Mama Tazelendi'
   },
 
@@ -1132,8 +1132,8 @@ const SOLIDARITY_POINTS = [
     name: 'Eyüp Haliç Kıyısı Mama İstasyonu',
     type: 'mama_noktasi',
     address: 'Feshane Caddesi Sahil Parkı, Eyüpsultan',
-    lat: 41.0480,
-    lng: 28.9370,
+    lat: 41.0465,
+    lng: 28.9340,
     status: 'Kedi ve Güvercin Yemi Mevcut'
   },
 
@@ -1143,8 +1143,8 @@ const SOLIDARITY_POINTS = [
     name: 'Pendik Sahil Parkı Mama & Su İstasyonu',
     type: 'mama_noktasi',
     address: 'Pendik Sahil Yolu İDO İskelesi Civarı, Pendik',
-    lat: 40.8760,
-    lng: 29.2340,
+    lat: 40.8810,
+    lng: 29.2360,
     status: 'Dolu (Sabah Kontrol Edildi)'
   },
 
@@ -1154,8 +1154,8 @@ const SOLIDARITY_POINTS = [
     name: 'Büyükada Değirmenburnu Besleme Noktası',
     type: 'mama_noktasi',
     address: 'Değirmenburnu Tabiat Parkı Girişi, Büyükada',
-    lat: 40.8710,
-    lng: 29.1240,
+    lat: 40.8750,
+    lng: 29.1225,
     status: 'Ada Gönüllüleri Tarafından Takip Ediliyor'
   }
 ];
@@ -1234,18 +1234,29 @@ class SokakDostumStore {
       const saved = localStorage.getItem(STORAGE_KEY_REPORTS);
       if (saved) {
         this.reports = JSON.parse(saved);
-        // Tüm ilçelerden yeni eklenen vakaları otomatik birleştir
+        
+        // Kara koordinatı senkronizasyonu: INITIAL_REPORTS içindeki güncel kara koordinatlarını zorunlu güncelle
+        const initialMap = new Map(INITIAL_REPORTS.map(r => [r.id, r]));
+        this.reports = this.reports.map(r => {
+          if (initialMap.has(r.id)) {
+            const initItem = initialMap.get(r.id);
+            return { ...r, lat: initItem.lat, lng: initItem.lng, locationName: initItem.locationName };
+          }
+          // Deniz koordinatında kalmış eski test vakalarını karaya taşı (Sarayburnu açıkları kontrolü)
+          if (r.lat >= 41.000 && r.lat <= 41.025 && r.lng >= 40.970 && r.lng <= 29.010) {
+            return { ...r, lat: 41.0370, lng: 28.9850, locationName: 'Beyoğlu, Taksim' };
+          }
+          return r;
+        });
+
+        // Yeni eklenen vakaları otomatik birleştir
         const existingIds = new Set(this.reports.map(r => r.id));
-        let hasNew = false;
         INITIAL_REPORTS.forEach(initR => {
           if (!existingIds.has(initR.id)) {
             this.reports.push(initR);
-            hasNew = true;
           }
         });
-        if (hasNew) {
-          this.persistReports();
-        }
+        this.persistReports();
       } else {
         this.reports = [...INITIAL_REPORTS];
         this.persistReports();
@@ -1457,8 +1468,8 @@ class SokakDostumStore {
       title: this.sanitizeText(data.title || 'İsimsiz Yardım Çağrısı'),
       type: data.type || 'kedi',
       urgency: data.urgency || 'hungry',
-      lat: parseFloat(data.lat) || 41.015,
-      lng: parseFloat(data.lng) || 28.98,
+      lat: parseFloat(data.lat) || 41.0370,
+      lng: parseFloat(data.lng) || 28.9850,
       locationName: this.sanitizeText(data.locationName || 'Konum belirtilmedi'),
       description: this.sanitizeText(data.description || ''),
       image: data.image || fallbackImg,

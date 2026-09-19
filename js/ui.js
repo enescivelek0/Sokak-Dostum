@@ -519,13 +519,21 @@ class SokakDostumUI {
       return;
     }
 
-    let lat = 41.015 + (Math.random() - 0.5) * 0.03;
-    let lng = 28.985 + (Math.random() - 0.5) * 0.03;
+    // Varsayılan koordinat: Harita merkezi veya Taksim Meydanı (kara)
+    let lat = 41.0370;
+    let lng = 28.9850;
 
     if (coordsStr && coordsStr.includes(',')) {
       const parts = coordsStr.split(',');
       lat = parseFloat(parts[0]);
       lng = parseFloat(parts[1]);
+    } else if (window.sokakMap && window.sokakMap.userLocation) {
+      lat = window.sokakMap.userLocation[0];
+      lng = window.sokakMap.userLocation[1];
+    } else if (window.sokakMap && window.sokakMap.map) {
+      const center = window.sokakMap.map.getCenter();
+      lat = center.lat;
+      lng = center.lng;
     }
 
     const newReport = window.sokakStore.addReport({
