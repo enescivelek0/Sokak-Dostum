@@ -334,14 +334,9 @@ class SokakDostumUI {
                   ` : ''}
                 </div>
 
-                <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-100">
-                  <div class="flex items-center gap-1 text-[11px] text-slate-600 truncate">
-                    ${safeInsta ? `
-                      <a href="https://instagram.com/${safeInsta}" target="_blank" rel="noopener noreferrer" class="text-rose-600 font-bold hover:underline flex items-center gap-0.5">
-                        <span>📸</span>
-                        <span>@${safeInsta}</span>
-                      </a>
-                    ` : `<span class="text-slate-400">👤 ${safeContact}</span>`}
+                <div class="flex items-center justify-between gap-1.5 pt-1.5 border-t border-slate-100">
+                  <div class="flex items-center gap-1 text-[11px] text-slate-500 truncate">
+                    <span>👤 ${safeContact}</span>
                   </div>
 
                   <div class="flex items-center gap-1.5">
@@ -609,10 +604,10 @@ class SokakDostumUI {
         </p>
 
         <!-- GİZLİLİK ODAKLI İLETİŞİM ALANI -->
-        <div class="mb-4 bg-slate-50/80 p-3 rounded-2xl border border-slate-200/80">
-          <div class="flex items-center justify-between mb-1.5">
+        <div class="mb-4 bg-slate-50/80 p-3.5 rounded-2xl border border-slate-200/80 shadow-2xs">
+          <div class="flex items-center justify-between mb-2">
             <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
-              <span>🔒 Güvenli İletişim</span>
+              <span>🔒 Güvenli Doğrudan İletişim</span>
             </span>
             <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-[10px] text-orange-600 hover:underline font-semibold flex items-center gap-0.5">
               <span>Gizlilik Politikamız</span> ↗
@@ -620,13 +615,22 @@ class SokakDostumUI {
           </div>
 
           ${safeInsta ? `
-            <a href="https://instagram.com/${safeInsta}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-3 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition">
-              <span class="text-base">📸</span>
-              <span>Instagram DM ile Ulaş (@${safeInsta})</span>
-            </a>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between bg-white px-3 py-2 rounded-xl border border-slate-200 text-xs">
+                <span class="text-slate-500 text-[11px] font-medium">Instagram Hesabı:</span>
+                <a href="https://instagram.com/${safeInsta}" target="_blank" rel="noopener noreferrer" class="font-extrabold text-pink-600 hover:underline flex items-center gap-1">
+                  <span>📸</span>
+                  <span>@${safeInsta}</span>
+                </a>
+              </div>
+              <a href="https://instagram.com/${safeInsta}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-3 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition">
+                <span class="text-base">💬</span>
+                <span>Instagram DM ile Ulaş (@${safeInsta})</span>
+              </a>
+            </div>
           ` : `
-            <div class="p-2 bg-white rounded-xl text-center text-xs text-slate-600 border border-slate-200">
-              Bu ilana iletişim bilgisi bırakılmamış. Harita konumu üzerinden veya yorumlarla destek olabilirsiniz.
+            <div class="p-2.5 bg-white rounded-xl text-center text-xs text-slate-600 border border-slate-200">
+              Bu ilana iletişim bilgisi bırakılmamış. Harita konumu üzerinden veya aşağıdaki saha aksiyonlarıyla destek olabilirsiniz.
             </div>
           `}
         </div>
