@@ -3,7 +3,7 @@
  * Veri yönetimi, yerel depolama, gizlilik ve arşivleme altyapısı
  */
 
-const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v7';
+const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v10';
 
 function createAnimalSVG(type) {
   let icon = '🐾';
@@ -712,8 +712,8 @@ const VETERINARIANS = [
     phone: '0212 292 34 50',
     isOpen247: false,
     hours: '08:30 - 22:30',
-    lat: 41.0230,
-    lng: 28.9770,
+    lat: 41.0265,
+    lng: 28.9765,
     badge: 'Sokak Hayvanı Desteği'
   },
 
@@ -792,8 +792,8 @@ const VETERINARIANS = [
     phone: '0216 422 11 22',
     isOpen247: false,
     hours: '09:00 - 21:30',
-    lat: 41.0510,
-    lng: 29.0495,
+    lat: 41.0515,
+    lng: 29.0550,
     badge: 'Kanatlı & Egzotik Uzmanı'
   },
 
@@ -873,8 +873,8 @@ const VETERINARIANS = [
     address: 'Kordonboyu Mah. Ankara Cad. No:55, Kartal',
     phone: '0216 353 40 50',
     isOpen247: true,
-    lat: 40.8910,
-    lng: 29.1890,
+    lat: 40.8985,
+    lng: 29.1910,
     badge: 'Sahil Acil Servis'
   },
 
@@ -934,8 +934,8 @@ const SOLIDARITY_POINTS = [
     name: 'Kadıköy Sahil Mama Odağı',
     type: 'mama_noktasi',
     address: 'Moda İskelesi yanı, Kadıköy',
-    lat: 40.9830,
-    lng: 29.0285,
+    lat: 40.9855,
+    lng: 29.0320,
     status: 'Dolu (Bugün 08:30)'
   },
   {
@@ -1016,8 +1016,8 @@ const SOLIDARITY_POINTS = [
     name: 'Balat Sahil Parkı Kedi Evleri',
     type: 'mama_noktasi',
     address: 'Balat Sahil Parkı Haliç Kıyısı, Fatih',
-    lat: 41.0310,
-    lng: 28.9465,
+    lat: 41.0305,
+    lng: 28.9450,
     status: 'Gönüllülerce Dolduruldu'
   },
 
@@ -1067,8 +1067,8 @@ const SOLIDARITY_POINTS = [
     name: 'Yeşilköy Sahil Parkı Kedi Parkı',
     type: 'mama_noktasi',
     address: 'Yeşilköy Sahil Yürüyüş Yolu, Bakırköy',
-    lat: 40.9635,
-    lng: 28.8315,
+    lat: 40.9680,
+    lng: 28.8330,
     status: 'Mama Kulübeleri Kontrol Edildi'
   },
   {
@@ -1087,8 +1087,8 @@ const SOLIDARITY_POINTS = [
     name: 'Maltepe Şehir Parkı Pati Noktası',
     type: 'mama_noktasi',
     address: 'Maltepe Sahil Etkinlik Alanı Kıyı Bandı, Maltepe',
-    lat: 40.9310,
-    lng: 29.1365,
+    lat: 40.9355,
+    lng: 29.1415,
     status: 'Mama Bırakıldı'
   },
 
@@ -1110,8 +1110,8 @@ const SOLIDARITY_POINTS = [
     name: 'Kartal Sahil Parkı Besleme Alanı',
     type: 'mama_noktasi',
     address: 'Kartal Sahil Şeridi İskele Yanı, Kartal',
-    lat: 40.8955,
-    lng: 29.1895,
+    lat: 40.8990,
+    lng: 29.1935,
     status: 'Su ve Mama Tazelendi'
   },
 
@@ -1143,8 +1143,8 @@ const SOLIDARITY_POINTS = [
     name: 'Pendik Sahil Parkı Mama & Su İstasyonu',
     type: 'mama_noktasi',
     address: 'Pendik Sahil Yolu İDO İskelesi Civarı, Pendik',
-    lat: 40.8810,
-    lng: 29.2360,
+    lat: 40.8850,
+    lng: 29.2385,
     status: 'Dolu (Sabah Kontrol Edildi)'
   },
 
@@ -1154,8 +1154,8 @@ const SOLIDARITY_POINTS = [
     name: 'Büyükada Değirmenburnu Besleme Noktası',
     type: 'mama_noktasi',
     address: 'Değirmenburnu Tabiat Parkı Girişi, Büyükada',
-    lat: 40.8750,
-    lng: 29.1225,
+    lat: 40.8720,
+    lng: 29.1245,
     status: 'Ada Gönüllüleri Tarafından Takip Ediliyor'
   }
 ];
@@ -1231,39 +1231,31 @@ class SokakDostumStore {
 
   init() {
     try {
-      // Eski önbellek ve deniz koordinatlı tüm sürümleri temizle
-      const staleKeys = [
-        'sokak_dostum_reports',
-        'sokakdostum_reports_v1',
-        'sokakdostum_reports_v2',
-        'sokakdostum_reports_v3',
-        'sokakdostum_reports_v4',
-        'sokakdostum_reports_v5',
-        'sokakdostum_reports_v6'
-      ];
-      staleKeys.forEach(k => {
-        try { localStorage.removeItem(k); } catch (err) {}
-      });
+      // Tüm eski sürümleri temizle
+      for (let i = 1; i <= 9; i++) {
+        localStorage.removeItem('sokakdostum_reports_v' + i);
+      }
+      localStorage.removeItem('sokak_dostum_reports');
 
       const saved = localStorage.getItem(STORAGE_KEY_REPORTS);
       if (saved) {
-        this.reports = JSON.parse(saved);
-        // Kara koordinatlarını INITIAL_REPORTS ile daima birebir senkronize et
+        const parsed = JSON.parse(saved);
+        // Varsayılan vakaların koordinatlarını ZORUNLU olarak kara koordinatlarıyla ez
         const initialMap = new Map(INITIAL_REPORTS.map(r => [r.id, r]));
-        this.reports = this.reports.map(r => {
+        this.reports = parsed.map(r => {
           if (initialMap.has(r.id)) {
-            const initItem = initialMap.get(r.id);
-            return { ...r, lat: initItem.lat, lng: initItem.lng };
+            const fresh = initialMap.get(r.id);
+            return { ...r, lat: fresh.lat, lng: fresh.lng, locationName: fresh.locationName };
           }
           return r;
         });
         this.persistReports();
       } else {
-        this.reports = [...INITIAL_REPORTS];
+        this.reports = INITIAL_REPORTS.map(r => ({ ...r }));
         this.persistReports();
       }
     } catch (e) {
-      this.reports = [...INITIAL_REPORTS];
+      this.reports = INITIAL_REPORTS.map(r => ({ ...r }));
     }
   }
 

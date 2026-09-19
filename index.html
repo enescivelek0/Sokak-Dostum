@@ -21,7 +21,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- Özel Stiller -->
-  <link rel="stylesheet" href="css/style.css?v=2.5">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
 </head>
 <body class="h-full w-full relative overflow-hidden bg-slate-900 font-sans select-none">
 
@@ -468,15 +468,25 @@
     <span id="toast-text">Bildirim</span>
   </div>
 
-  <script src="js/config.js?v=2.5"></script>
-  <script src="js/store.js?v=2.5"></script>
-  <script src="js/map.js?v=2.5"></script>
-  <script src="js/ui.js?v=2.5"></script>
-  <script src="js/app.js?v=2.5"></script>
+  <script src="js/config.js?v=3.0"></script>
+  <script src="js/store.js?v=3.0"></script>
+  <script src="js/map.js?v=3.0"></script>
+  <script src="js/ui.js?v=3.0"></script>
+  <script src="js/app.js?v=3.0"></script>
   <script>
+    // Eski Service Worker önbelleğini ve tarayıcı kilitlerini temizle
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for (let registration of registrations) {
+          registration.unregister();
+        }
+      });
+    }
+    if ('caches' in window) {
+      caches.keys().then(function(names) {
+        for (let name of names) {
+          caches.delete(name);
+        }
       });
     }
   </script>
