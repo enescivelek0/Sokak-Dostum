@@ -102,10 +102,10 @@ class SokakDostumUI {
     tabBtns.forEach(btn => {
       const bTab = btn.getAttribute('data-tab-btn');
       if (bTab === tab) {
-        btn.classList.add('bg-emerald-600', 'text-white', 'shadow-xs');
+        btn.classList.add('bg-blue-600', 'text-white', 'shadow-xs');
         btn.classList.remove('text-slate-600', 'hover:bg-slate-100');
       } else {
-        btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-xs');
+        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-xs');
         btn.classList.add('text-slate-600', 'hover:bg-slate-100');
       }
     });
@@ -138,10 +138,10 @@ class SokakDostumUI {
     const btns = document.querySelectorAll('[data-animal-btn]');
     btns.forEach(b => {
       if (b.getAttribute('data-animal-btn') === animal) {
-        b.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+        b.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
         b.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
       } else {
-        b.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600');
+        b.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
         b.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
       }
     });
@@ -182,7 +182,7 @@ class SokakDostumUI {
         <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping shrink-0"></span>
         <span class="text-xs font-bold text-red-700">🚨 Acil Vaka:</span>
         <span class="text-xs font-semibold text-slate-800 truncate max-w-[200px] sm:max-w-xs">${critical.title}</span>
-        <span class="text-[11px] font-bold text-emerald-700 ml-1 group-hover:underline">Haritada Gör →</span>
+        <span class="text-[11px] font-bold text-blue-700 ml-1 group-hover:underline">Haritada Gör →</span>
       </div>
     `;
   }
@@ -201,7 +201,7 @@ class SokakDostumUI {
             <span class="text-3xl block mb-2">${state.viewArchive ? '🏠' : '🐾'}</span>
             <p class="text-xs font-semibold">${state.viewArchive ? 'Henüz arşivde vaka bulunmuyor.' : 'Bu filtrelere uygun aktif vaka bulunamadı.'}</p>
             ${!state.viewArchive ? `
-              <button onclick="window.sokakUI.openNewReportModal()" class="mt-3 px-3 py-1.5 bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-xs">
+              <button onclick="window.sokakUI.openNewReportModal()" class="mt-3 px-3 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-xs">
                 + Yeni Vaka Bildir
               </button>
             ` : ''}
@@ -240,7 +240,7 @@ class SokakDostumUI {
                     <span class="text-[10px] text-slate-400">${this.formatTimeAgo(r.createdAt)}</span>
                   </div>
 
-                  <h4 onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="font-bold text-slate-900 text-xs leading-snug line-clamp-1 cursor-pointer hover:text-emerald-700 transition">
+                  <h4 onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="font-bold text-slate-900 text-xs leading-snug line-clamp-1 cursor-pointer hover:text-blue-700 transition">
                     ${r.title}
                   </h4>
                   <p class="text-[11px] text-slate-500 line-clamp-1 mb-1">
@@ -262,7 +262,7 @@ class SokakDostumUI {
                     <button onclick="window.sokakUI.focusItem(${r.lat}, ${r.lng}, '${r.id}')" class="py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition" title="Haritada Odaklan">
                       Harita
                     </button>
-                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
+                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
                       Detay
                     </button>
                   </div>
@@ -282,7 +282,7 @@ class SokakDostumUI {
             <span class="px-2 py-0.5 text-[10px] font-extrabold rounded-full ${v.isOpen247 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-600'}">
               ${v.isOpen247 ? '🚨 7/24 Nöbetçi' : (v.hours || 'Açık')}
             </span>
-            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+            <span class="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md">
               ${v.badge || 'Klinik'}
             </span>
           </div>
@@ -291,7 +291,7 @@ class SokakDostumUI {
           <p class="text-[11px] text-slate-500 mb-2.5">📍 ${v.address}</p>
 
           <div class="grid grid-cols-2 gap-1.5">
-            <a href="tel:${v.phone.replace(/\s+/g, '')}" class="py-1.5 px-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+            <a href="tel:${v.phone.replace(/\s+/g, '')}" class="py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
               <span>📞 Ara</span>
             </a>
             <button onclick="window.sokakUI.focusItem(${v.lat}, ${v.lng})" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
@@ -314,13 +314,13 @@ class SokakDostumUI {
               </span>
             </div>
             <h4 class="font-bold text-slate-900 text-xs mb-0.5">${p.name}</h4>
-            <p class="text-[11px] text-emerald-800 font-medium mb-1">✓ ${p.status}</p>
+            <p class="text-[11px] text-blue-800 font-medium mb-1">✓ ${p.status}</p>
             <p class="text-[11px] text-slate-400 mb-2.5">📍 ${p.address}</p>
             <div class="grid grid-cols-2 gap-1.5">
               <button onclick="window.sokakUI.focusItem(${p.lat}, ${p.lng})" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
                 Haritada Gör
               </button>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg text-[11px] font-bold text-center transition">
+              <a href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-[11px] font-bold text-center transition">
                 🧭 Rota Al
               </a>
             </div>
@@ -356,9 +356,9 @@ class SokakDostumUI {
     const btns = document.querySelectorAll('[data-form-animal]');
     btns.forEach(b => {
       if (b.getAttribute('data-form-animal') === type) {
-        b.classList.add('ring-2', 'ring-emerald-600', 'bg-emerald-50');
+        b.classList.add('ring-2', 'ring-blue-600', 'bg-blue-50');
       } else {
-        b.classList.remove('ring-2', 'ring-emerald-600', 'bg-emerald-50');
+        b.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50');
       }
     });
   }
@@ -522,7 +522,7 @@ class SokakDostumUI {
           <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Dayanışma & Süreç (${report.supports?.length || 0})</h5>
           <div class="space-y-1 max-h-24 overflow-y-auto">
             ${report.supports && report.supports.length > 0 ? report.supports.map(s => `
-              <div class="text-xs text-emerald-800 bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-100/60">
+              <div class="text-xs text-blue-800 bg-blue-50 px-2.5 py-1.5 rounded-lg border border-blue-100/60">
                 ✓ ${s}
               </div>
             `).join('') : '<p class="text-xs text-slate-400 italic">Henüz bir eylem kaydı yok.</p>'}
@@ -598,7 +598,7 @@ class SokakDostumUI {
         <ul class="space-y-1 pl-1">
           ${tip.steps.map(s => `
             <li class="text-[11px] text-slate-600 flex items-start gap-1.5">
-              <span class="text-emerald-600 font-bold">•</span>
+              <span class="text-blue-600 font-bold">•</span>
               <span>${s}</span>
             </li>
           `).join('')}

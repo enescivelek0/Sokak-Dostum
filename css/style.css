@@ -1,16 +1,17 @@
 /* ==========================================================================
-   SokakDostum - Ultra Modern, Kompakt & Harita Öncelikli Tasarım
+   SokakDostum - Ultra Modern, Yüksek Kontrastlı & Şık Tasarım Sistemi
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  --primary-emerald: #059669;
-  --primary-dark: #064e3b;
+  --primary-blue: #2563eb;
+  --primary-indigo: #4f46e5;
+  --primary-dark: #1e3a8a;
   --urgent-red: #ef4444;
   --warning-amber: #f59e0b;
-  --glass-bg: rgba(255, 255, 255, 0.88);
-  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-bg: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.85);
 }
 
 * {
@@ -28,19 +29,21 @@ body {
   width: 100vw;
 }
 
-/* Cam Efekti (Glassmorphism) */
+/* Cam Efekti (Glassmorphism) - Yüksek Kontrastlı */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   border: 1px solid var(--glass-border);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.18);
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
 }
 
 /* Şık Özel Kaydırma Çubuğu */
@@ -70,25 +73,26 @@ body {
 }
 
 .custom-pin:hover {
-  transform: scale(1.22);
+  transform: scale(1.24);
   z-index: 9999 !important;
 }
 
 .pin-bubble {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 18px -2px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 22px -2px rgba(0, 0, 0, 0.38);
   border: 2.5px solid #ffffff;
   position: relative;
   z-index: 2;
-  font-size: 16px;
+  font-size: 17px;
+  color: #ffffff;
 }
 
-/* Kritik Vaka Nabız Efekti */
+/* Kritik Vaka Nabız Dalgalanması */
 .pin-pulse-critical::after {
   content: '';
   position: absolute;
@@ -97,7 +101,7 @@ body {
   right: -8px;
   bottom: -8px;
   border-radius: 50%;
-  background: rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.55);
   animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
   z-index: 1;
 }
@@ -196,24 +200,34 @@ body {
   cursor: crosshair !important;
 }
 
-/* Rozetler */
+/* Yüksek Kontrastlı Kategori Rozetleri */
 .badge-critical {
   background: #fef2f2;
   color: #b91c1c;
   border: 1px solid #fecaca;
+  font-weight: 800;
 }
 .badge-injured {
   background: #fff7ed;
   color: #c2410c;
   border: 1px solid #fed7aa;
+  font-weight: 700;
 }
 .badge-hungry {
   background: #fefce8;
   color: #854d0e;
   border: 1px solid #fef08a;
+  font-weight: 700;
 }
 .badge-shelter {
   background: #eff6ff;
   color: #1d4ed8;
   border: 1px solid #bfdbfe;
+  font-weight: 700;
+}
+.badge-adopted {
+  background: #faf5ff;
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
+  font-weight: 800;
 }

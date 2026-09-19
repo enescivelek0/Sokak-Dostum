@@ -5,17 +5,18 @@
 
 const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v3';
 
-function createAnimalSVG(type, bg = '#d1fae5') {
+function createAnimalSVG(type) {
   let icon = '🐾';
-  if (type === 'kedi') icon = '🐱';
-  if (type === 'kopek') icon = '🐶';
-  if (type === 'kus') icon = '🕊️';
-  if (type === 'diger') icon = '🦔';
+  let bg = '#e2e8f0';
+  if (type === 'kedi') { icon = '🐱'; bg = '#e0e7ff'; }
+  else if (type === 'kopek') { icon = '🐶'; bg = '#fef3c7'; }
+  else if (type === 'kus') { icon = '🕊️'; bg = '#e0f2fe'; }
+  else if (type === 'diger') { icon = '🦔'; bg = '#f3e8ff'; }
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
     <rect width="400" height="300" fill="${bg}"/>
-    <circle cx="200" cy="150" r="70" fill="white" opacity="0.85"/>
-    <text x="50%" y="54%" font-size="64" dominant-baseline="middle" text-anchor="middle">${icon}</text>
+    <circle cx="200" cy="150" r="75" fill="white" opacity="0.95" filter="drop-shadow(0 4px 10px rgba(0,0,0,0.06))"/>
+    <text x="50%" y="54%" font-size="70" dominant-baseline="middle" text-anchor="middle">${icon}</text>
   </svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }

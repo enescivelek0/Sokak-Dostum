@@ -23,7 +23,7 @@
 
   <!-- HARİTA KATMAN DEĞİŞTİRİCİ (SAĞ ÜST) -->
   <div class="absolute top-20 right-3 z-20 flex flex-col gap-1 bg-white/90 backdrop-blur-md p-1 rounded-2xl shadow-lg border border-white/80">
-    <button onclick="window.sokakMap.setMapStyle('streets')" data-map-layer="streets" class="px-2.5 py-1 text-[10px] font-bold rounded-xl transition bg-emerald-600 text-white shadow-xs" title="Sokak Haritası">
+    <button onclick="window.sokakMap.setMapStyle('streets')" data-map-layer="streets" class="px-2.5 py-1 text-[10px] font-bold rounded-xl transition bg-blue-600 text-white shadow-xs" title="Sokak Haritası">
       🗺️ Sokak
     </button>
     <button onclick="window.sokakMap.setMapStyle('satellite')" data-map-layer="satellite" class="px-2.5 py-1 text-[10px] font-bold rounded-xl transition bg-white/90 text-slate-700 hover:bg-slate-100" title="Uydu Görünümü">
@@ -41,17 +41,19 @@
       
       <!-- Sol: Marka Logo & Masaüstü Panel Butonu -->
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="window.sokakUI.toggleDesktopPanel()" id="panel-toggle-btn" class="hidden md:flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-emerald-700 bg-slate-100/90 hover:bg-emerald-50 px-2 py-1.5 rounded-xl transition">
+        <button onclick="window.sokakUI.toggleDesktopPanel()" id="panel-toggle-btn" class="hidden md:flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-blue-700 bg-slate-100/90 hover:bg-blue-50 px-2 py-1.5 rounded-xl transition">
           ◀ Paneli Gizle
         </button>
 
         <div class="flex items-center gap-2 cursor-pointer" onclick="window.sokakMap.flyTo(41.015, 28.99, 13)">
-          <div class="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white text-base shadow-sm">
-            🐾
+          <div class="w-9 h-9 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 flex items-center justify-center shadow-md shadow-blue-500/25 shrink-0">
+            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 13.5c-1.8 0-3.5 1.2-3.5 3 0 1.5 1.2 2.5 3.5 2.5s3.5-1 3.5-2.5c0-1.8-1.7-3-3.5-3zM8.5 11c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-11 2c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5zm15 0c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5z"/>
+            </svg>
           </div>
           <div>
             <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 leading-none">
-              Sokak<span class="text-emerald-600">Dostum</span>
+              Sokak<span class="text-blue-600">Dostum</span>
             </h1>
             <span class="text-[9px] font-semibold text-slate-400 hidden sm:inline">Acil Destek Haritası</span>
           </div>
@@ -60,13 +62,13 @@
 
       <!-- Orta: Arama Kutusu -->
       <div class="flex-1 max-w-sm relative">
-        <input type="text" id="search-input" placeholder="Vaka, semt veya klinik ara..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-100/90 hover:bg-white focus:bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition shadow-inner" />
+        <input type="text" id="search-input" placeholder="Vaka, semt veya klinik ara..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-100/90 hover:bg-white focus:bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-inner" />
         <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
 
       <!-- Sağ: GPS & İlk Yardım & Hızlı Bildir -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <button onclick="window.sokakUI.getGPSLocation()" class="p-1.5 sm:px-2.5 sm:py-1.5 bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl text-slate-600 text-xs font-semibold transition flex items-center gap-1" title="Konumumu Göster">
+        <button onclick="window.sokakUI.getGPSLocation()" class="p-1.5 sm:px-2.5 sm:py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 rounded-xl text-slate-600 text-xs font-semibold transition flex items-center gap-1" title="Konumumu Göster">
           <span>🛰️</span>
           <span class="hidden sm:inline">Konumum</span>
         </button>
@@ -76,7 +78,7 @@
           <span class="hidden sm:inline">İlk Yardım</span>
         </button>
 
-        <button onclick="window.sokakUI.openNewReportModal()" class="py-1.5 px-3 sm:px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/30 transition flex items-center gap-1.5">
+        <button onclick="window.sokakUI.openNewReportModal()" class="py-1.5 px-3 sm:px-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/25 transition flex items-center gap-1.5">
           <span class="text-sm">🚨</span>
           <span>Vaka Bildir</span>
         </button>
@@ -104,7 +106,7 @@
       
       <!-- Ana Sekmeler: Vakalar | Klinikler | Mama Noktaları -->
       <div class="grid grid-cols-3 gap-1 bg-slate-100/90 p-1 rounded-xl mb-2">
-        <button onclick="window.sokakUI.switchTab('reports')" data-tab-btn="reports" class="py-1.5 text-center text-xs font-bold rounded-lg transition bg-emerald-600 text-white shadow-xs">
+        <button onclick="window.sokakUI.switchTab('reports')" data-tab-btn="reports" class="py-1.5 text-center text-xs font-bold rounded-lg transition bg-blue-600 text-white shadow-xs">
           🚨 Vakalar (<span id="count-reports">0</span>)
         </button>
         <button onclick="window.sokakUI.switchTab('vets')" data-tab-btn="vets" class="py-1.5 text-center text-xs font-bold rounded-lg transition text-slate-600 hover:bg-slate-100">
@@ -128,7 +130,7 @@
 
       <!-- Hayvan Türü Hızlı Filtre Çipleri -->
       <div class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none">
-        <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-emerald-600 text-white border-emerald-600 whitespace-nowrap transition">
+        <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-blue-600 text-white border-blue-600 whitespace-nowrap transition">
           Tümü
         </button>
         <button onclick="window.sokakUI.setAnimalFilter('kedi')" data-animal-btn="kedi" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
@@ -164,7 +166,7 @@
           <span class="text-xl">🐾</span>
           <div>
             <h3 class="font-extrabold text-slate-900 text-sm sm:text-base leading-none">Hızlı Vaka Bildir</h3>
-            <span class="text-[10px] text-emerald-700 font-bold">Kayıt gerekmez • Anında yayında</span>
+            <span class="text-[10px] text-blue-700 font-bold">Kayıt gerekmez • Anında yayında</span>
           </div>
         </div>
         <button onclick="window.sokakUI.closeNewReportModal()" class="w-7 h-7 rounded-full bg-slate-200/80 hover:bg-slate-300 text-slate-700 flex items-center justify-center text-xs transition">
@@ -179,7 +181,7 @@
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">Hayvan Türü</label>
           <div class="grid grid-cols-4 gap-2">
-            <button type="button" onclick="window.sokakUI.selectFormAnimal('kedi')" data-form-animal="kedi" class="p-2 border border-slate-200 rounded-xl text-center transition ring-2 ring-emerald-600 bg-emerald-50">
+            <button type="button" onclick="window.sokakUI.selectFormAnimal('kedi')" data-form-animal="kedi" class="p-2 border border-slate-200 rounded-xl text-center transition ring-2 ring-blue-600 bg-blue-50">
               <span class="text-xl block">🐱</span>
               <span class="text-[10px] font-bold text-slate-800">Kedi</span>
             </button>
@@ -224,17 +226,17 @@
         <!-- Başlık -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Durum Başlığı *</label>
-          <input type="text" id="form-title" placeholder="Örn: Bacağı yaralı kedi acil nakil" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          <input type="text" id="form-title" placeholder="Örn: Bacağı yaralı kedi acil nakil" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
         </div>
 
         <!-- Konum Bilgisi -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Konum / Sokak Adresi *</label>
-          <input type="text" id="form-location-name" placeholder="Örn: Moda Parkı çeşme arkası" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none mb-2" />
+          <input type="text" id="form-location-name" placeholder="Örn: Moda Parkı çeşme arkası" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none mb-2" />
           
           <div class="flex items-center gap-2">
             <input type="text" id="form-coords-input" readonly placeholder="Harita Koordinatı" class="flex-1 text-[11px] px-2.5 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-500" />
-            <button type="button" onclick="window.sokakUI.pickLocationOnMap()" class="py-1.5 px-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-xs font-bold border border-emerald-200 transition">
+            <button type="button" onclick="window.sokakUI.pickLocationOnMap()" class="py-1.5 px-2.5 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-xl text-xs font-bold border border-blue-200 transition">
               📍 Haritadan Seç
             </button>
             <button type="button" onclick="window.sokakUI.getGPSLocation()" class="py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
@@ -246,13 +248,13 @@
         <!-- Açıklama -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Açıklama & İhtiyaç</label>
-          <textarea id="form-description" rows="2" placeholder="Hayvanın genel hali, kutuda mı, acil klinik mi lazım?" class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+          <textarea id="form-description" rows="2" placeholder="Hayvanın genel hali, kutuda mı, acil klinik mi lazım?" class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
         </div>
 
         <!-- Fotoğraf Yükleme -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Fotoğraf (Varsa)</label>
-          <input type="file" id="report-image-input" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer" />
+          <input type="file" id="report-image-input" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer" />
           
           <div id="form-img-preview" class="hidden mt-2 relative w-full h-28 rounded-xl overflow-hidden border border-slate-200">
             <img id="form-img-tag" src="" alt="Önizleme" class="w-full h-full object-cover" />
@@ -263,7 +265,7 @@
         <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
           <div class="flex items-center justify-between">
             <label class="block text-xs font-bold text-slate-700">🔒 Güvenli İletişim (Gizlilik)</label>
-            <span class="text-[10px] text-emerald-700 font-semibold">Telefon gizli tutulur</span>
+            <span class="text-[10px] text-blue-700 font-semibold">Telefon gizli tutulur</span>
           </div>
 
           <div>
@@ -277,12 +279,12 @@
 
           <div>
             <label class="block text-[11px] font-semibold text-slate-600 mb-1">İsim veya Mahlasınız (İsteğe Bağlı)</label>
-            <input type="text" id="form-contact-name" placeholder="Örn: Melis" class="w-full text-xs px-3 py-1.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+            <input type="text" id="form-contact-name" placeholder="Örn: Melis" class="w-full text-xs px-3 py-1.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
           </div>
         </div>
 
         <!-- Gönder Butonu -->
-        <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-600/30 transition">
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-blue-600/25 transition">
           Haritada İşaretle ve Yayınla 🐾
         </button>
 
