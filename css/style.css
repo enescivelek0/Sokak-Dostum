@@ -184,14 +184,18 @@ body {
 
 /* Mobil Alt Çekmece (Bottom Sheet) Boyutları */
 @media (max-width: 768px) {
+  #sliding-panel {
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+  }
   .sheet-peek {
-    height: 76px !important;
+    height: 128px !important;
   }
   .sheet-half {
-    height: 48vh !important;
+    height: 52vh !important;
   }
   .sheet-full {
-    height: 88vh !important;
+    height: calc(100vh - 68px) !important;
   }
 }
 

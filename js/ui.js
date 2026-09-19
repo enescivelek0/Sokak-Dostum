@@ -195,11 +195,11 @@ class SokakDostumUI {
 
     alertEl.classList.remove('hidden');
     alertEl.innerHTML = `
-      <div onclick="window.sokakUI.focusItem(${critical.lat}, ${critical.lng}, '${critical.id}')" class="glass-pill px-3.5 py-1.5 rounded-full shadow-lg border border-red-300 flex items-center gap-2 cursor-pointer hover:bg-red-50/90 transition group">
-        <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping shrink-0"></span>
-        <span class="text-xs font-bold text-red-700">🚨 Acil Vaka:</span>
-        <span class="text-xs font-semibold text-slate-800 truncate max-w-[200px] sm:max-w-xs">${critical.title}</span>
-        <span class="text-[11px] font-bold text-blue-700 ml-1 group-hover:underline">Haritada Gör →</span>
+      <div onclick="window.sokakUI.focusItem(${critical.lat}, ${critical.lng}, '${critical.id}')" class="glass-pill px-3 py-1 rounded-full shadow-md border border-red-200 flex items-center gap-1.5 cursor-pointer hover:bg-red-50/90 transition text-xs max-w-xs sm:max-w-md">
+        <span class="w-2 h-2 rounded-full bg-red-600 animate-ping shrink-0"></span>
+        <span class="font-bold text-red-700 shrink-0">🚨 Acil:</span>
+        <span class="font-semibold text-slate-800 truncate text-[11px] sm:text-xs">${critical.title}</span>
+        <span class="text-[10px] font-bold text-blue-700 ml-0.5 shrink-0">Gör →</span>
       </div>
     `;
   }
