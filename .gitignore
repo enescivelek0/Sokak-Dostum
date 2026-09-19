@@ -1,9 +1,20 @@
+# Environment Variables & Secrets (CRITICAL: Never commit to public repo)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+secrets/
+config.local.*
+
 # OS & Editor files
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 
-# Scratch & Logs
+# Scratch, Cache & Logs
 *.log
 scratch/
+.system_generated/
