@@ -1,0 +1,23 @@
+{
+  "name": "SokakDostum - Sokak Hayvanları Acil Haritası",
+  "short_name": "SokakDostum",
+  "description": "Sokak hayvanları acil vaka bildirimi, 7/24 nöbetçi veterinerler ve mama dayanışma haritası.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

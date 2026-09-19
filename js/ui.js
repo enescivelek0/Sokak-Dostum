@@ -229,18 +229,20 @@ class SokakDostumUI {
 
       container.innerHTML = state.reports.map(r => {
         const isCritical = r.urgency === 'critical';
+        const isTransit = r.urgency === 'transit';
         const isAdopted = r.status === 'adopted';
         const isArchived = r.status === 'archived';
 
         let badgeClass = 'bg-amber-100 text-amber-800';
         let badgeText = '🥣 Mama/Su';
         if (r.urgency === 'critical') { badgeClass = 'bg-red-100 text-red-800 font-extrabold'; badgeText = '🚨 Hayati'; }
+        if (r.urgency === 'transit') { badgeClass = 'badge-transit font-extrabold'; badgeText = '🚗 Araç Lazım'; }
         if (r.urgency === 'injured') { badgeClass = 'bg-orange-100 text-orange-800 font-bold'; badgeText = '🩹 Yaralı'; }
-        if (r.urgency === 'shelter') { badgeClass = 'bg-blue-100 text-blue-800'; badgeText = '🏠 Yuva Arayan'; }
+        if (r.urgency === 'shelter') { badgeClass = 'bg-blue-100 text-blue-800 font-semibold'; badgeText = '🏠 Yuva Arayan'; }
         if (isAdopted) { badgeClass = 'bg-purple-100 text-purple-800 font-extrabold'; badgeText = '🎉 Yuva Buldu'; }
 
         return `
-          <div class="bg-white/95 rounded-2xl p-3 border border-slate-200/80 shadow-xs hover:shadow-md transition group ${isCritical ? 'ring-1 ring-red-400' : ''} ${isAdopted ? 'bg-purple-50/40 border-purple-200' : ''}">
+          <div class="bg-white/95 rounded-2xl p-3 border border-slate-200/80 shadow-xs hover:shadow-md transition group ${isCritical ? 'ring-1 ring-red-400' : ''} ${isTransit ? 'ring-1 ring-indigo-300' : ''} ${isAdopted ? 'bg-purple-50/40 border-purple-200' : ''}">
             <div class="flex gap-3">
               <div class="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 relative">
                 <img src="${r.image}" alt="${r.title}" class="w-full h-full object-cover group-hover:scale-105 transition" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(r.type)}'"/>
@@ -260,9 +262,16 @@ class SokakDostumUI {
                   <h4 onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="font-bold text-slate-900 text-xs leading-snug line-clamp-1 cursor-pointer hover:text-blue-700 transition">
                     ${r.title}
                   </h4>
-                  <p class="text-[11px] text-slate-500 line-clamp-1 mb-1">
-                    📍 ${r.locationName}
+                  <p class="text-[11px] text-slate-500 line-clamp-1 mb-1 flex items-center gap-1">
+                    ${r.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${r.distanceText}</span>` : ''}
+                    <span class="truncate">📍 ${r.locationName}</span>
                   </p>
+                  ${r.supportCount > 0 ? `
+                    <div class="text-[10px] text-indigo-700 font-semibold flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse"></span>
+                      <span>${r.supportCount} kişi sahada ilgilendi</span>
+                    </div>
+                  ` : ''}
                 </div>
 
                 <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-100">
@@ -276,10 +285,13 @@ class SokakDostumUI {
                   </div>
 
                   <div class="flex items-center gap-1">
-                    <button onclick="window.sokakUI.focusItem(${r.lat}, ${r.lng}, '${r.id}')" class="py-1 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition" title="Haritada Odaklan">
+                    <button onclick="window.sokakUI.openNavigation(${r.lat}, ${r.lng})" class="py-1 px-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-bold transition" title="Google Maps Rota">
+                      🧭 Rota
+                    </button>
+                    <button onclick="window.sokakUI.focusItem(${r.lat}, ${r.lng}, '${r.id}')" class="py-1 px-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition" title="Haritada Odaklan">
                       Harita
                     </button>
-                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
+                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
                       Detay
                     </button>
                   </div>
@@ -305,14 +317,20 @@ class SokakDostumUI {
           </div>
 
           <h4 class="font-bold text-slate-900 text-xs mb-0.5">${v.name}</h4>
-          <p class="text-[11px] text-slate-500 mb-2.5">📍 ${v.address}</p>
+          <p class="text-[11px] text-slate-500 mb-2.5 flex items-center gap-1">
+            ${v.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${v.distanceText}</span>` : ''}
+            <span class="truncate">📍 ${v.address}</span>
+          </p>
 
-          <div class="grid grid-cols-2 gap-1.5">
-            <a href="tel:${v.phone.replace(/\s+/g, '')}" class="py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
-              <span>📞 Ara</span>
+          <div class="grid grid-cols-3 gap-1">
+            <a href="tel:${v.phone.replace(/\s+/g, '')}" class="py-1.5 px-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+              <span>📞</span> Ara
             </a>
-            <button onclick="window.sokakUI.focusItem(${v.lat}, ${v.lng})" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
-              Haritada Odaklan
+            <button onclick="window.sokakUI.openNavigation(${v.lat}, ${v.lng})" class="py-1.5 px-1 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+              <span>🧭</span> Rota
+            </button>
+            <button onclick="window.sokakUI.focusItem(${v.lat}, ${v.lng})" class="py-1.5 px-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
+              Harita
             </button>
           </div>
         </div>
@@ -332,14 +350,17 @@ class SokakDostumUI {
             </div>
             <h4 class="font-bold text-slate-900 text-xs mb-0.5">${p.name}</h4>
             <p class="text-[11px] text-blue-800 font-medium mb-1">✓ ${p.status}</p>
-            <p class="text-[11px] text-slate-400 mb-2.5">📍 ${p.address}</p>
+            <p class="text-[11px] text-slate-400 mb-2.5 flex items-center gap-1">
+              ${p.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${p.distanceText}</span>` : ''}
+              <span class="truncate">📍 ${p.address}</span>
+            </p>
             <div class="grid grid-cols-2 gap-1.5">
+              <button onclick="window.sokakUI.openNavigation(${p.lat}, ${p.lng})" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+                <span>🧭</span> Yol Tarifi
+              </button>
               <button onclick="window.sokakUI.focusItem(${p.lat}, ${p.lng})" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
                 Haritada Gör
               </button>
-              <a href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-[11px] font-bold text-center transition">
-                🧭 Rota Al
-              </a>
             </div>
           </div>
         `;
@@ -410,7 +431,8 @@ class SokakDostumUI {
     this.showToast('🛰️ Konumunuz alınıyor...');
     window.sokakMap.locateUser(
       (coords) => {
-        this.showToast('✅ Konumunuz alındı!');
+        this.showToast('✅ Konumunuz alındı! İlanlar mesafeye göre sıralandı.');
+        window.sokakStore.setUserLocation(coords.lat, coords.lng);
         const coordsInput = document.getElementById('form-coords-input');
         if (coordsInput) {
           coordsInput.value = `${coords.lat.toFixed(5)}, ${coords.lng.toFixed(5)}`;
@@ -476,6 +498,7 @@ class SokakDostumUI {
 
     const urgencyLabels = {
       critical: '🚨 Hayati Tehlike / Acil',
+      transit: '🚗 Acil Nakil / Araç Lazım',
       injured: '🩹 Yaralı / Tedavi İhtiyacı',
       hungry: '🥣 Aç / Susuz',
       shelter: '🏠 Yuva Arayan Dost'
@@ -506,7 +529,8 @@ class SokakDostumUI {
 
         <h3 class="text-base font-extrabold text-slate-900 mb-1">${report.title}</h3>
         <p class="text-xs text-slate-500 mb-3 flex items-center gap-1">
-          <span>📍 ${report.locationName}</span>
+          ${report.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${report.distanceText}</span>` : ''}
+          <span class="truncate">📍 ${report.locationName}</span>
         </p>
 
         <p class="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100 mb-3.5 leading-relaxed">
@@ -549,13 +573,42 @@ class SokakDostumUI {
         </div>
 
         <!-- AKSİYON BUTONLARI -->
-        <div class="space-y-2 pt-2 border-t border-slate-100">
+        <div class="space-y-2.5 pt-2 border-t border-slate-100">
           
+          <!-- Hızlı İletişim & Navigasyon & Paylaşım Satırı -->
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="window.sokakUI.shareWhatsApp('${report.id}')" class="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+              <span class="text-sm">💬</span>
+              <span>WhatsApp'ta Paylaş</span>
+            </button>
+            <button onclick="window.sokakUI.openNavigation(${report.lat}, ${report.lng})" class="py-2.5 px-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+              <span class="text-sm">🧭</span>
+              <span>Yol Tarifi Al</span>
+            </button>
+          </div>
+
+          <!-- Saha Dayanışması: Yoldayım & Mama Bıraktım -->
+          ${!isAdopted && !isArchived ? `
+            <div class="p-2.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+              <span class="block text-[11px] font-bold text-slate-700 mb-1.5">🤝 Sahada mısınız? Durumu Bildirin:</span>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="window.sokakUI.addSupport('${report.id}', '🚗 Kontrole gidiliyor / yolda')" class="py-2 px-2 bg-white hover:bg-indigo-50 hover:border-indigo-300 text-indigo-950 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-2xs">
+                  <span>🚗</span>
+                  <span>Yoldayım / İlgileniyorum</span>
+                </button>
+                <button onclick="window.sokakUI.addSupport('${report.id}', '🥣 Mama ve su bırakıldı')" class="py-2 px-2 bg-white hover:bg-amber-50 hover:border-amber-300 text-amber-950 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-2xs">
+                  <span>🥣</span>
+                  <span>Mama Bıraktım</span>
+                </button>
+              </div>
+            </div>
+          ` : ''}
+
           <!-- Sahiplendirme / Arşivleme Özel Butonu -->
           ${!isAdopted && !isArchived ? `
             <button onclick="window.sokakUI.markAdopted('${report.id}')" class="w-full py-2 px-3 bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
               <span>🎉</span>
-              <span>Sahiplendirildi / Yuvaya Kavuştu (İlanı Arşive Kaldır)</span>
+              <span>Sahiplendirildi / Yuvaya Kavuştu (Arşive Kaldır)</span>
             </button>
           ` : `
             <div class="p-2.5 bg-purple-50 border border-purple-200 rounded-xl text-center text-xs text-purple-900 font-bold flex items-center justify-center gap-2">
@@ -563,18 +616,6 @@ class SokakDostumUI {
               <span>Bu can dostumuz sıcak bir yuvaya kavuştu! İlan arşivlendi.</span>
             </div>
           `}
-
-          <div class="grid grid-cols-3 gap-2">
-            <button onclick="window.sokakUI.addSupport('${report.id}', '🥣 Mama ve su bırakıldı')" class="py-2 px-1 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-xs font-bold transition border border-amber-200 text-center">
-              🥣 Mama
-            </button>
-            <button onclick="window.sokakUI.addSupport('${report.id}', '🏥 Kliniğe ulaştırıldı')" class="py-2 px-1 bg-red-50 hover:bg-red-100 text-red-800 rounded-xl text-xs font-bold transition border border-red-200 text-center">
-              🏥 Kliniğe
-            </button>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=${report.lat},${report.lng}" target="_blank" rel="noopener noreferrer" class="py-2 px-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition text-center flex items-center justify-center gap-1">
-              🧭 Yol Tarifi
-            </a>
-          </div>
 
         </div>
       </div>
@@ -586,6 +627,43 @@ class SokakDostumUI {
   closeReportDetailModal() {
     const modal = document.getElementById('detail-modal');
     if (modal) modal.classList.remove('active');
+  }
+
+  openNavigation(lat, lng) {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    window.open(url, '_blank');
+  }
+
+  shareWhatsApp(reportId) {
+    const report = window.sokakStore.getState().allReports.find(r => r.id === reportId);
+    if (!report) return;
+
+    const urgencyEmojis = {
+      critical: '🚨 HAYATİ TEHLİKE',
+      transit: '🚗 ACİL NAKİL LAZIM',
+      injured: '🩹 YARALI CAN',
+      hungry: '🥣 AÇ/SUSUZ',
+      shelter: '🏠 YUVA ARANIYOR'
+    };
+
+    const text = `🐾 SokakDostum Acil Durum Çağrısı\n\n` +
+      `Durum: ${urgencyEmojis[report.urgency] || 'Yardım Çağrısı'}\n` +
+      `Başlık: ${report.title}\n` +
+      `Konum: ${report.locationName}\n` +
+      (report.description ? `Açıklama: ${report.description}\n` : '') +
+      `\nHarita ve Detaylar: ${window.location.href}`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: 'SokakDostum - ' + report.title,
+        text: text,
+        url: window.location.href
+      }).catch(() => {
+        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
+      });
+    } else {
+      window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text), '_blank');
+    }
   }
 
   addSupport(reportId, text) {

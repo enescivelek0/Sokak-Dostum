@@ -249,6 +249,7 @@ class SokakDostumStore {
     this.solidarityPoints = SOLIDARITY_POINTS;
     this.firstAidTips = FIRST_AID_TIPS;
     this.subscribers = [];
+    this.userLocation = null; // { lat, lng }
     
     // Filtreleme durumu
     this.activeTab = 'reports'; // 'reports' | 'vets' | 'points'
@@ -294,6 +295,32 @@ class SokakDostumStore {
     this.subscribers.forEach(cb => cb(this.getState()));
   }
 
+  setUserLocation(lat, lng) {
+    this.userLocation = { lat: parseFloat(lat), lng: parseFloat(lng) };
+    this.notify();
+  }
+
+  calculateDistance(lat1, lon1, lat2, lon2) {
+    if (lat1 == null || lon1 == null || lat2 == null || lon2 == null) return null;
+    const R = 6371; // Dünya yarıçapı (km)
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  formatDistance(distKm) {
+    if (distKm == null || isNaN(distKm)) return '';
+    if (distKm < 1) {
+      return `${Math.round(distKm * 1000)} m`;
+    }
+    return `${distKm.toFixed(1)} km`;
+  }
+
   getState() {
     const activeReports = this.reports.filter(r => r.status === 'active' || r.status === 'in_progress');
     const adoptedReports = this.reports.filter(r => r.status === 'adopted' || r.status === 'archived');
@@ -304,6 +331,7 @@ class SokakDostumStore {
       activeUrgency: this.activeUrgency,
       activeAnimal: this.activeAnimal,
       searchQuery: this.searchQuery,
+      userLocation: this.userLocation,
       reports: this.getFilteredReports(),
       allReports: this.reports,
       vets: this.getFilteredVets(),
@@ -347,7 +375,7 @@ class SokakDostumStore {
   }
 
   getFilteredReports() {
-    return this.reports.filter(r => {
+    let list = this.reports.filter(r => {
       // Arşiv vs Aktif görünüm
       const isArchivedOrAdopted = r.status === 'adopted' || r.status === 'archived';
       if (this.viewArchive) {
@@ -369,18 +397,64 @@ class SokakDostumStore {
       }
       return true;
     });
+
+    if (this.userLocation) {
+      list = list.map(r => {
+        const d = this.calculateDistance(this.userLocation.lat, this.userLocation.lng, r.lat, r.lng);
+        return {
+          ...r,
+          distanceKm: d,
+          distanceText: this.formatDistance(d)
+        };
+      });
+      list.sort((a, b) => (a.distanceKm || 9999) - (b.distanceKm || 9999));
+    }
+
+    return list;
   }
 
   getFilteredVets() {
-    if (!this.searchQuery) return this.vets;
-    const q = this.searchQuery.toLowerCase().trim();
-    return this.vets.filter(v => v.name.toLowerCase().includes(q) || v.address.toLowerCase().includes(q));
+    let list = this.vets;
+    if (this.searchQuery) {
+      const q = this.searchQuery.toLowerCase().trim();
+      list = list.filter(v => v.name.toLowerCase().includes(q) || v.address.toLowerCase().includes(q));
+    }
+
+    if (this.userLocation) {
+      list = list.map(v => {
+        const d = this.calculateDistance(this.userLocation.lat, this.userLocation.lng, v.lat, v.lng);
+        return {
+          ...v,
+          distanceKm: d,
+          distanceText: this.formatDistance(d)
+        };
+      });
+      list.sort((a, b) => (a.distanceKm || 9999) - (b.distanceKm || 9999));
+    }
+
+    return list;
   }
 
   getFilteredPoints() {
-    if (!this.searchQuery) return this.solidarityPoints;
-    const q = this.searchQuery.toLowerCase().trim();
-    return this.solidarityPoints.filter(p => p.name.toLowerCase().includes(q) || p.address.toLowerCase().includes(q));
+    let list = this.solidarityPoints;
+    if (this.searchQuery) {
+      const q = this.searchQuery.toLowerCase().trim();
+      list = list.filter(p => p.name.toLowerCase().includes(q) || p.address.toLowerCase().includes(q));
+    }
+
+    if (this.userLocation) {
+      list = list.map(p => {
+        const d = this.calculateDistance(this.userLocation.lat, this.userLocation.lng, p.lat, p.lng);
+        return {
+          ...p,
+          distanceKm: d,
+          distanceText: this.formatDistance(d)
+        };
+      });
+      list.sort((a, b) => (a.distanceKm || 9999) - (b.distanceKm || 9999));
+    }
+
+    return list;
   }
 
   addReport(data) {

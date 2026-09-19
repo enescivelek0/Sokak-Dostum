@@ -10,6 +10,8 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -227,7 +229,11 @@
           <div class="grid grid-cols-2 gap-2">
             <button type="button" onclick="window.sokakUI.selectFormUrgency('critical')" data-form-urgency="critical" class="py-1.5 px-2 bg-red-50 hover:bg-red-100 text-red-800 rounded-xl text-xs font-bold border border-red-200 text-left transition flex items-center gap-1.5">
               <span>🚨</span>
-              <span>Hayati Tehlike (Acil)</span>
+              <span>Hayati Tehlike</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('transit')" data-form-urgency="transit" class="py-1.5 px-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 rounded-xl text-xs font-bold border border-indigo-200 text-left transition flex items-center gap-1.5">
+              <span>🚗</span>
+              <span>Nakil / Araç Lazım</span>
             </button>
             <button type="button" onclick="window.sokakUI.selectFormUrgency('injured')" data-form-urgency="injured" class="py-1.5 px-2 bg-orange-50 hover:bg-orange-100 text-orange-800 rounded-xl text-xs font-bold border border-orange-200 text-left transition flex items-center gap-1.5">
               <span>🩹</span>
@@ -237,9 +243,9 @@
               <span>🥣</span>
               <span>Aç / Susuz Dost</span>
             </button>
-            <button type="button" onclick="window.sokakUI.selectFormUrgency('shelter')" data-form-urgency="shelter" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-xl text-xs font-bold border border-blue-200 text-left transition flex items-center gap-1.5">
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('shelter')" data-form-urgency="shelter" class="col-span-2 py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-xl text-xs font-bold border border-blue-200 text-left transition flex items-center gap-1.5">
               <span>🏠</span>
-              <span>Geçici Yuva / Barınma</span>
+              <span>Geçici Yuva / Barınma İhtiyacı</span>
             </button>
           </div>
         </div>
@@ -417,11 +423,17 @@
     <span id="toast-text">Bildirim</span>
   </div>
 
-  <!-- KOMPONENTLER -->
   <script src="js/config.js"></script>
   <script src="js/store.js"></script>
   <script src="js/map.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
 </body>
 </html>
