@@ -151,20 +151,31 @@ class SokakDostumMap {
     }
   }
 
+  escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   createReportMarker(report) {
-    let pinColor = 'bg-amber-500';
+    let pinColor = 'bg-orange-500';
     let pulseClass = '';
-    let icon = '🥣';
+    let icon = '🐾';
 
     if (report.urgency === 'critical') {
-      pinColor = 'bg-red-500';
-      pulseClass = 'pin-pulse-critical';
+      pinColor = 'bg-red-600';
+      pulseClass = 'animate-pulse';
       icon = '🚨';
     } else if (report.urgency === 'transit') {
       pinColor = 'bg-rose-500';
+      pulseClass = 'animate-bounce';
       icon = '🚗';
     } else if (report.urgency === 'injured') {
-      pinColor = 'bg-orange-500';
+      pinColor = 'bg-orange-600';
       icon = '🩹';
     } else if (report.urgency === 'shelter') {
       pinColor = 'bg-amber-500';
@@ -197,10 +208,13 @@ class SokakDostumMap {
 
     const marker = L.marker([report.lat, report.lng], { icon: pinIcon });
 
+    const safeTitle = this.escapeHtml(report.title);
+    const safeDesc = this.escapeHtml(report.description);
+
     const popupHtml = `
       <div class="overflow-hidden font-sans">
         <div class="relative h-28 w-full bg-slate-100">
-          <img src="${report.image}" alt="${report.title}" class="w-full h-full object-cover" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(report.type)}'"/>
+          <img src="${report.image}" alt="${safeTitle}" class="w-full h-full object-cover" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(report.type)}'"/>
           <div class="absolute top-2 left-2">
             <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-white/95 text-slate-800 shadow-sm">
               ${popupBadge}
@@ -208,8 +222,8 @@ class SokakDostumMap {
           </div>
         </div>
         <div class="p-3">
-          <h4 class="font-bold text-slate-900 text-xs line-clamp-1 mb-1">${report.title}</h4>
-          <p class="text-[11px] text-slate-500 line-clamp-2 mb-2.5">${report.description}</p>
+          <h4 class="font-bold text-slate-900 text-xs line-clamp-1 mb-1">${safeTitle}</h4>
+          <p class="text-[11px] text-slate-500 line-clamp-2 mb-2.5">${safeDesc}</p>
           <div class="flex items-center gap-1.5 pt-2 border-t border-slate-100">
             <button onclick="window.sokakUI.openReportDetailModal('${report.id}')" class="flex-1 py-1.5 px-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-lg text-[11px] font-bold transition text-center shadow-xs">
               İncele & Destek

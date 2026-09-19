@@ -12,6 +12,16 @@ class SokakDostumUI {
     this.selectedUrgency = 'hungry';
   }
 
+  escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   init() {
     this.bindEvents();
     this.renderAll();
@@ -243,7 +253,7 @@ class SokakDostumUI {
       <div onclick="window.sokakUI.focusItem(${critical.lat}, ${critical.lng}, '${critical.id}')" class="glass-pill px-3 py-1 rounded-full shadow-md border border-red-200 flex items-center gap-1.5 cursor-pointer hover:bg-red-50/90 transition text-xs max-w-xs sm:max-w-md">
         <span class="w-2 h-2 rounded-full bg-red-600 animate-ping shrink-0"></span>
         <span class="font-bold text-red-700 shrink-0">🚨 Acil:</span>
-        <span class="font-semibold text-slate-800 truncate text-[11px] sm:text-xs">${critical.title}</span>
+        <span class="font-semibold text-slate-800 truncate text-[11px] sm:text-xs">${this.escapeHtml(critical.title)}</span>
         <span class="text-[10px] font-bold text-orange-600 ml-0.5 shrink-0">Gör →</span>
       </div>
     `;
@@ -286,11 +296,16 @@ class SokakDostumUI {
         if (r.urgency === 'shelter') { badgeClass = 'bg-amber-100 text-amber-800 font-semibold'; badgeText = '🏠 Yuva Arayan'; }
         if (isAdopted) { badgeClass = 'bg-emerald-100 text-emerald-800 font-extrabold'; badgeText = '🎉 Yuva Buldu'; }
 
+        const safeTitle = this.escapeHtml(r.title);
+        const safeLoc = this.escapeHtml(r.locationName);
+        const safeContact = this.escapeHtml(r.contactName || 'Anonim');
+        const safeInsta = this.escapeHtml(r.instagram || '');
+
         return `
           <div class="bg-white/95 rounded-2xl p-3 border border-slate-200/80 shadow-xs hover:shadow-md transition group ${isCritical ? 'ring-1 ring-red-400' : ''} ${isTransit ? 'ring-1 ring-rose-300' : ''} ${isAdopted ? 'bg-emerald-50/40 border-emerald-200' : ''}">
             <div class="flex gap-3">
               <div class="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 relative">
-                <img src="${r.image}" alt="${r.title}" class="w-full h-full object-cover group-hover:scale-105 transition" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(r.type)}'"/>
+                <img src="${r.image}" alt="${safeTitle}" class="w-full h-full object-cover group-hover:scale-105 transition" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(r.type)}'"/>
                 ${isAdopted ? '<div class="absolute inset-0 bg-emerald-950/70 flex items-center justify-center text-[10px] text-white font-extrabold">YUVADA 🎉</div>' : ''}
                 ${isArchived ? '<div class="absolute inset-0 bg-slate-900/60 flex items-center justify-center text-[10px] text-white font-bold">ARŞİV</div>' : ''}
               </div>
@@ -305,11 +320,11 @@ class SokakDostumUI {
                   </div>
 
                   <h4 onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="font-bold text-slate-900 text-xs leading-snug line-clamp-1 cursor-pointer hover:text-orange-600 transition">
-                    ${r.title}
+                    ${safeTitle}
                   </h4>
                   <p class="text-[11px] text-slate-500 line-clamp-1 mb-1 flex items-center gap-1">
                     ${r.distanceText ? `<span class="font-bold text-orange-700 bg-orange-50 border border-orange-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${r.distanceText}</span>` : ''}
-                    <span class="truncate">📍 ${r.locationName}</span>
+                    <span class="truncate">📍 ${safeLoc}</span>
                   </p>
                   ${r.supportCount > 0 ? `
                     <div class="text-[10px] text-rose-700 font-semibold flex items-center gap-1">
@@ -321,12 +336,12 @@ class SokakDostumUI {
 
                 <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-100">
                   <div class="flex items-center gap-1 text-[11px] text-slate-600 truncate">
-                    ${r.instagram ? `
-                      <a href="https://instagram.com/${r.instagram}" target="_blank" rel="noopener noreferrer" class="text-rose-600 font-bold hover:underline flex items-center gap-0.5">
+                    ${safeInsta ? `
+                      <a href="https://instagram.com/${safeInsta}" target="_blank" rel="noopener noreferrer" class="text-rose-600 font-bold hover:underline flex items-center gap-0.5">
                         <span>📸</span>
-                        <span>@${r.instagram}</span>
+                        <span>@${safeInsta}</span>
                       </a>
-                    ` : `<span class="text-slate-400">👤 ${r.contactName || 'Anonim'}</span>`}
+                    ` : `<span class="text-slate-400">👤 ${safeContact}</span>`}
                   </div>
 
                   <div class="flex items-center gap-1">
@@ -552,9 +567,15 @@ class SokakDostumUI {
     const isAdopted = report.status === 'adopted';
     const isArchived = report.status === 'archived';
 
+    const safeTitle = this.escapeHtml(report.title);
+    const safeLoc = this.escapeHtml(report.locationName);
+    const safeDesc = this.escapeHtml(report.description || 'Ek açıklama girilmedi.');
+    const safeContact = this.escapeHtml(report.contactName || 'Pati Dostu');
+    const safeInsta = this.escapeHtml(report.instagram || '');
+
     content.innerHTML = `
       <div class="relative h-48 w-full bg-slate-100">
-        <img src="${report.image}" alt="${report.title}" class="w-full h-full object-cover" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(report.type)}'"/>
+        <img src="${report.image}" alt="${safeTitle}" class="w-full h-full object-cover" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(report.type)}'"/>
         <button onclick="window.sokakUI.closeReportDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition">
           ✕
         </button>
@@ -569,17 +590,17 @@ class SokakDostumUI {
       <div class="p-5">
         <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
           <span>🕒 ${this.formatTimeAgo(report.createdAt)}</span>
-          <span>👤 İlan Sahibi: ${report.contactName || 'Pati Dostu'}</span>
+          <span>👤 İlan Sahibi: ${safeContact}</span>
         </div>
 
-        <h3 class="text-base font-extrabold text-slate-900 mb-1">${report.title}</h3>
+        <h3 class="text-base font-extrabold text-slate-900 mb-1">${safeTitle}</h3>
         <p class="text-xs text-slate-500 mb-3 flex items-center gap-1">
           ${report.distanceText ? `<span class="font-bold text-orange-700 bg-orange-50 border border-orange-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${report.distanceText}</span>` : ''}
-          <span class="truncate">📍 ${report.locationName}</span>
+          <span class="truncate">📍 ${safeLoc}</span>
         </p>
 
         <p class="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100 mb-3.5 leading-relaxed">
-          ${report.description || 'Ek açıklama girilmedi.'}
+          ${safeDesc}
         </p>
 
         <!-- GİZLİLİK ODAKLI İLETİŞİM ALANI -->
@@ -593,10 +614,10 @@ class SokakDostumUI {
             </button>
           </div>
 
-          ${report.instagram ? `
-            <a href="https://instagram.com/${report.instagram}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-3 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition">
+          ${safeInsta ? `
+            <a href="https://instagram.com/${safeInsta}" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-3 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-95 text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm transition">
               <span class="text-base">📸</span>
-              <span>Instagram DM ile Ulaş (@${report.instagram})</span>
+              <span>Instagram DM ile Ulaş (@${safeInsta})</span>
             </a>
           ` : `
             <div class="p-2 bg-white rounded-xl text-center text-xs text-slate-600 border border-slate-200">
@@ -611,7 +632,7 @@ class SokakDostumUI {
           <div class="space-y-1 max-h-24 overflow-y-auto">
             ${report.supports && report.supports.length > 0 ? report.supports.map(s => `
               <div class="text-xs text-orange-800 bg-orange-50 px-2.5 py-1.5 rounded-lg border border-orange-100/60">
-                ✓ ${s}
+                ✓ ${this.escapeHtml(s)}
               </div>
             `).join('') : '<p class="text-xs text-slate-400 italic">Henüz bir eylem kaydı yok.</p>'}
           </div>

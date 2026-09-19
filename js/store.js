@@ -1436,27 +1436,34 @@ class SokakDostumStore {
     return list;
   }
 
+  sanitizeText(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   addReport(data) {
     const fallbackImg = createAnimalSVG(data.type);
     
-    // Instagram kullanıcı adı temizleme (@ işaretini ayıkla)
-    let cleanInstagram = (data.instagram || '').trim();
-    if (cleanInstagram.startsWith('@')) {
-      cleanInstagram = cleanInstagram.substring(1);
-    }
+    // Instagram kullanıcı adı temizleme ve güvenli kılma
+    let cleanInstagram = (data.instagram || '').trim().replace(/^@/, '').replace(/[^a-zA-Z0-9._]/g, '');
 
     const newReport = {
       id: 'rep-' + Date.now(),
-      title: data.title || 'İsimsiz Yardım Çağrısı',
+      title: this.sanitizeText(data.title || 'İsimsiz Yardım Çağrısı'),
       type: data.type || 'kedi',
       urgency: data.urgency || 'hungry',
       lat: parseFloat(data.lat) || 41.015,
       lng: parseFloat(data.lng) || 28.98,
-      locationName: data.locationName || 'Konum belirtilmedi',
-      description: data.description || '',
+      locationName: this.sanitizeText(data.locationName || 'Konum belirtilmedi'),
+      description: this.sanitizeText(data.description || ''),
       image: data.image || fallbackImg,
       instagram: cleanInstagram || null,
-      contactName: data.contactName || 'Pati Dostu',
+      contactName: this.sanitizeText(data.contactName || 'Pati Dostu'),
       status: 'active',
       createdAt: new Date().toISOString(),
       supportCount: 0,
@@ -1473,9 +1480,10 @@ class SokakDostumStore {
     const report = this.reports.find(r => r.id === reportId);
     if (report) {
       if (!report.supports) report.supports = [];
-      report.supports.unshift(actionText);
+      const cleanAction = this.sanitizeText(actionText);
+      report.supports.unshift(cleanAction);
       report.supportCount = (report.supportCount || 0) + 1;
-      if (report.status === 'active' && actionText.includes('Klinik')) {
+      if (report.status === 'active' && cleanAction.includes('Klinik')) {
         report.status = 'in_progress';
       }
       this.persistReports();
