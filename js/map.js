@@ -56,15 +56,17 @@ class SokakDostumMap {
   setMapStyle(styleName) {
     this.currentStyle = styleName;
     const config = window.APP_CONFIG || {};
-    const token = (config.MAPBOX_TOKEN || '').trim();
+    const token = (typeof config.getMapboxToken === 'function' ? config.getMapboxToken() : (config.MAPBOX_TOKEN || '')).trim();
     const providers = config.TILE_PROVIDERS || {};
 
     let tileUrl = '';
     let maxZoom = 19;
     let subdomains = 'abc';
+    let isMapbox = false;
 
     // Mapbox Token tanımlıysa Mapbox Vektörel Katmanları Kullan
     if (token && token.startsWith('pk.')) {
+      isMapbox = true;
       if (styleName === 'satellite') {
         tileUrl = providers.mapboxSatellite ? providers.mapboxSatellite(token) : '';
       } else if (styleName === 'dark') {
@@ -90,10 +92,12 @@ class SokakDostumMap {
       this.map.removeLayer(this.currentTileLayer);
     }
 
-    // Yeni katmanı ekle
+    // Yeni katmanı ekle (Mapbox 512px retina desteği ile)
     this.currentTileLayer = L.tileLayer(tileUrl, {
       maxZoom: maxZoom,
-      subdomains: subdomains
+      subdomains: subdomains,
+      tileSize: isMapbox ? 512 : 256,
+      zoomOffset: isMapbox ? -1 : 0
     }).addTo(this.map);
 
     // UI butonlarının aktiflik durumunu güncelle
