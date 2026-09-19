@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2563eb">
+  <meta name="theme-color" content="#ea580c">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -31,13 +31,13 @@
   <!-- HARİTA SAĞ YÜZEN KONTROLLERİ (GPS & KATMANLAR) -->
   <div class="absolute top-16 right-2.5 sm:top-20 sm:right-4 z-20 flex flex-col items-center gap-2 pointer-events-auto">
     <!-- GPS / Konumumu Bul -->
-    <button onclick="window.sokakUI.getGPSLocation()" class="w-9 h-9 rounded-2xl bg-white/95 hover:bg-blue-50 text-slate-700 shadow-md border border-white/90 flex items-center justify-center text-sm active:scale-95 transition" title="Konumumu Bul">
+    <button onclick="window.sokakUI.getGPSLocation()" class="w-9 h-9 rounded-2xl bg-white/95 hover:bg-orange-50 text-slate-700 shadow-md border border-white/90 flex items-center justify-center text-sm active:scale-95 transition" title="Konumumu Bul">
       📍
     </button>
 
     <!-- Katman Seçici (Kompakt Mini Menü) -->
     <div class="bg-white/95 backdrop-blur-md p-1 rounded-2xl shadow-md border border-white/90 flex flex-col gap-1">
-      <button onclick="window.sokakMap.setMapStyle('streets')" data-map-layer="streets" class="w-7 h-7 flex items-center justify-center rounded-xl text-xs font-bold transition bg-blue-600 text-white shadow-xs" title="Sokak Haritası">
+      <button onclick="window.sokakMap.setMapStyle('streets')" data-map-layer="streets" class="w-7 h-7 flex items-center justify-center rounded-xl text-xs font-bold transition bg-orange-600 text-white shadow-xs" title="Sokak Haritası">
         🗺️
       </button>
       <button onclick="window.sokakMap.setMapStyle('satellite')" data-map-layer="satellite" class="w-7 h-7 flex items-center justify-center rounded-xl text-xs font-bold transition bg-white/90 text-slate-700 hover:bg-slate-100" title="Uydu Görünümü">
@@ -56,25 +56,32 @@
       
       <!-- Sol: Logo & Masaüstü Panel Aç/Kapa -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <button onclick="window.sokakUI.toggleDesktopPanel()" id="panel-toggle-btn" class="hidden md:flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-blue-700 bg-slate-100/90 hover:bg-blue-50 px-2 py-1.5 rounded-xl transition">
+        <button onclick="window.sokakUI.toggleDesktopPanel()" id="panel-toggle-btn" class="hidden md:flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-orange-600 bg-slate-100/90 hover:bg-orange-50 px-2 py-1.5 rounded-xl transition">
           ◀ Paneli Gizle
         </button>
 
-        <div class="flex items-center gap-1.5 cursor-pointer select-none" onclick="window.sokakMap.flyTo(41.015, 28.99, 13)">
-          <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-violet-600 flex items-center justify-center shadow-md shadow-blue-500/25 shrink-0">
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 13.5c-1.8 0-3.5 1.2-3.5 3 0 1.5 1.2 2.5 3.5 2.5s3.5-1 3.5-2.5c0-1.8-1.7-3-3.5-3zM8.5 11c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-11 2c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5zm15 0c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5z"/>
+        <div class="flex items-center gap-2 cursor-pointer select-none" onclick="window.sokakMap.flyTo(41.015, 28.99, 13)">
+          <!-- Yeni Sıcak Günbatımı & Mercan Kalp-Pati Logosu -->
+          <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 flex items-center justify-center shadow-md shadow-orange-500/25 shrink-0">
+            <svg class="w-5 h-5 text-white drop-shadow-xs" viewBox="0 0 24 24" fill="currentColor">
+              <!-- Kalp Şekilli Ana Yastık -->
+              <path d="M12 12.8c-1.3-1.4-3.3-1.4-4.5 0-1.2 1.4-1.2 3.5 0 4.8l4.5 4.4 4.5-4.4c1.2-1.3 1.2-3.4 0-4.8-1.2-1.4-3.2-1.4-4.5 0z"/>
+              <!-- 4 Pati Parmağı -->
+              <ellipse cx="6" cy="10" rx="1.8" ry="2.4" transform="rotate(-25 6 10)"/>
+              <ellipse cx="9.8" cy="6.6" rx="1.8" ry="2.6" transform="rotate(-8 9.8 6.6)"/>
+              <ellipse cx="14.2" cy="6.6" rx="1.8" ry="2.6" transform="rotate(8 14.2 6.6)"/>
+              <ellipse cx="18" cy="10" rx="1.8" ry="2.4" transform="rotate(25 18 10)"/>
             </svg>
           </div>
           <span class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 leading-none">
-            Sokak<span class="text-blue-600">Dostum</span>
+            Sokak<span class="bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">Dostum</span>
           </span>
         </div>
       </div>
 
       <!-- Orta: Arama Kutusu -->
       <div class="flex-1 max-w-xs sm:max-w-sm relative min-w-0">
-        <input type="text" id="search-input" placeholder="Vaka veya semt ara..." class="w-full pl-7 sm:pl-8 pr-2.5 sm:pr-3 py-1.5 text-xs bg-slate-100/90 hover:bg-white focus:bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition shadow-inner truncate" />
+        <input type="text" id="search-input" placeholder="Vaka veya semt ara..." class="w-full pl-7 sm:pl-8 pr-2.5 sm:pr-3 py-1.5 text-xs bg-slate-100/90 hover:bg-white focus:bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition shadow-inner truncate" />
         <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2 top-2 sm:left-2.5 sm:top-2.5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       </div>
 
@@ -85,12 +92,12 @@
           <span>İlk Yardım</span>
         </button>
 
-        <button onclick="window.sokakUI.openPolicyModal()" class="hidden md:flex px-2.5 py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 rounded-xl text-slate-600 text-xs font-semibold transition items-center gap-1" title="Kullanım İlkeleri ve Gizlilik">
+        <button onclick="window.sokakUI.openPolicyModal()" class="hidden md:flex px-2.5 py-1.5 bg-slate-100 hover:bg-orange-50 hover:text-orange-700 rounded-xl text-slate-600 text-xs font-semibold transition items-center gap-1" title="Kullanım İlkeleri ve Gizlilik">
           <span>🛡️</span>
           <span>İlkeler</span>
         </button>
 
-        <button onclick="window.sokakUI.openNewReportModal()" class="py-1.5 px-2.5 sm:px-3.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/25 transition flex items-center gap-1 shrink-0">
+        <button onclick="window.sokakUI.openNewReportModal()" class="py-1.5 px-2.5 sm:px-3.5 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:opacity-95 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-orange-500/25 transition flex items-center gap-1 shrink-0">
           <span>🚨</span>
           <span class="text-[11px] sm:text-xs">Bildir</span>
         </button>
@@ -118,7 +125,7 @@
       
       <!-- Ana Sekmeler: Vakalar | Klinikler | Mama Noktaları -->
       <div class="grid grid-cols-3 gap-1 bg-slate-100/90 p-1 rounded-xl mb-2">
-        <button onclick="window.sokakUI.switchTab('reports')" data-tab-btn="reports" class="py-1.5 text-center text-xs font-bold rounded-lg transition bg-blue-600 text-white shadow-xs">
+        <button onclick="window.sokakUI.switchTab('reports')" data-tab-btn="reports" class="py-1.5 text-center text-xs font-bold rounded-lg transition bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-xs">
           🚨 Vakalar (<span id="count-reports">0</span>)
         </button>
         <button onclick="window.sokakUI.switchTab('vets')" data-tab-btn="vets" class="py-1.5 text-center text-xs font-bold rounded-lg transition text-slate-600 hover:bg-slate-100">
@@ -136,13 +143,13 @@
         </button>
         <button id="view-archive-btn" onclick="window.sokakUI.toggleArchiveView(true)" class="flex-1 py-1 text-[11px] font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition text-center flex items-center justify-center gap-1">
           <span>🎉 Yuva Bulanlar & Arşiv</span>
-          <span id="count-adopted" class="text-[9px] bg-purple-100 text-purple-700 px-1.5 py-0.2 rounded-full font-bold">0</span>
+          <span id="count-adopted" class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-bold">0</span>
         </button>
       </div>
 
       <!-- Hayvan Türü Hızlı Filtre Çipleri -->
       <div class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none">
-        <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-blue-600 text-white border-blue-600 whitespace-nowrap transition">
+        <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-orange-600 text-white border-orange-600 whitespace-nowrap transition">
           Tümü
         </button>
         <button onclick="window.sokakUI.setAnimalFilter('kedi')" data-animal-btn="kedi" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
@@ -174,7 +181,7 @@
           <span>🩹</span> İlk Yardım
         </button>
         <span class="text-slate-300">|</span>
-        <button onclick="window.sokakUI.openPolicyModal()" class="text-blue-600 hover:text-blue-800 transition flex items-center gap-1">
+        <button onclick="window.sokakUI.openPolicyModal()" class="text-orange-600 hover:text-orange-800 transition flex items-center gap-1">
           <span>🛡️</span> İlkeler
         </button>
       </div>
@@ -204,7 +211,7 @@
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1.5">Hayvan Türü</label>
           <div class="grid grid-cols-4 gap-2">
-            <button type="button" onclick="window.sokakUI.selectFormAnimal('kedi')" data-form-animal="kedi" class="p-2 border border-slate-200 rounded-xl text-center transition ring-2 ring-blue-600 bg-blue-50">
+            <button type="button" onclick="window.sokakUI.selectFormAnimal('kedi')" data-form-animal="kedi" class="p-2 border border-slate-200 rounded-xl text-center transition ring-2 ring-orange-500 bg-orange-50">
               <span class="text-xl block">🐱</span>
               <span class="text-[10px] font-bold text-slate-800">Kedi</span>
             </button>
@@ -243,7 +250,7 @@
               <span>🥣</span>
               <span>Aç / Susuz Dost</span>
             </button>
-            <button type="button" onclick="window.sokakUI.selectFormUrgency('shelter')" data-form-urgency="shelter" class="col-span-2 py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-xl text-xs font-bold border border-blue-200 text-left transition flex items-center gap-1.5">
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('shelter')" data-form-urgency="shelter" class="col-span-2 py-1.5 px-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-xs font-bold border border-amber-200 text-left transition flex items-center gap-1.5">
               <span>🏠</span>
               <span>Geçici Yuva / Barınma İhtiyacı</span>
             </button>
@@ -253,17 +260,17 @@
         <!-- Başlık -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Durum Başlığı *</label>
-          <input type="text" id="form-title" placeholder="Örn: Bacağı yaralı kedi acil nakil" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+          <input type="text" id="form-title" placeholder="Örn: Bacağı yaralı kedi acil nakil" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
         </div>
 
         <!-- Konum Bilgisi -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Konum / Sokak Adresi *</label>
-          <input type="text" id="form-location-name" placeholder="Örn: Moda Parkı çeşme arkası" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none mb-2" />
+          <input type="text" id="form-location-name" placeholder="Örn: Moda Parkı çeşme arkası" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none mb-2" />
           
           <div class="flex items-center gap-2">
             <input type="text" id="form-coords-input" readonly placeholder="Harita Koordinatı" class="flex-1 text-[11px] px-2.5 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-500" />
-            <button type="button" onclick="window.sokakUI.pickLocationOnMap()" class="py-1.5 px-2.5 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-xl text-xs font-bold border border-blue-200 transition">
+            <button type="button" onclick="window.sokakUI.pickLocationOnMap()" class="py-1.5 px-2.5 bg-orange-50 hover:bg-orange-100 text-orange-800 rounded-xl text-xs font-bold border border-orange-200 transition">
               📍 Haritadan Seç
             </button>
             <button type="button" onclick="window.sokakUI.getGPSLocation()" class="py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
@@ -275,13 +282,13 @@
         <!-- Açıklama -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Açıklama & İhtiyaç</label>
-          <textarea id="form-description" rows="2" placeholder="Hayvanın genel hali, kutuda mı, acil klinik mi lazım?" class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+          <textarea id="form-description" rows="2" placeholder="Hayvanın genel hali, kutuda mı, acil klinik mi lazım?" class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none"></textarea>
         </div>
 
         <!-- Fotoğraf Yükleme -->
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Fotoğraf (Varsa)</label>
-          <input type="file" id="report-image-input" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer" />
+          <input type="file" id="report-image-input" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 cursor-pointer" />
           
           <div id="form-img-preview" class="hidden mt-2 relative w-full h-28 rounded-xl overflow-hidden border border-slate-200">
             <img id="form-img-tag" src="" alt="Önizleme" class="w-full h-full object-cover" />
@@ -296,19 +303,19 @@
             <label class="block text-[11px] font-semibold text-slate-600 mb-1">Instagram Kullanıcı Adınız (@)</label>
             <div class="relative">
               <span class="absolute left-3 top-2 text-xs font-bold text-slate-400">@</span>
-              <input type="text" id="form-instagram" placeholder="kullanici_adiniz" class="w-full text-xs pl-7 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none" />
+              <input type="text" id="form-instagram" placeholder="kullanici_adiniz" class="w-full text-xs pl-7 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
             </div>
-            <p class="text-[10px] text-slate-500 mt-1">Sahiplenmek veya destek olmak isteyenler sizinle Instagram DM üzerinden güvenle iletişime geçer. <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-blue-600 hover:underline font-semibold">Gizlilik İlkeleri</button></p>
+            <p class="text-[10px] text-slate-500 mt-1">Sahiplenmek veya destek olmak isteyenler sizinle Instagram DM üzerinden güvenle iletişime geçer. <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-orange-600 hover:underline font-semibold">Gizlilik İlkeleri</button></p>
           </div>
 
           <div>
             <label class="block text-[11px] font-semibold text-slate-600 mb-1">İsim veya Mahlasınız (İsteğe Bağlı)</label>
-            <input type="text" id="form-contact-name" placeholder="Örn: Melis" class="w-full text-xs px-3 py-1.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+            <input type="text" id="form-contact-name" placeholder="Örn: Melis" class="w-full text-xs px-3 py-1.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none" />
           </div>
         </div>
 
         <!-- Gönder Butonu -->
-        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-blue-600/25 transition">
+        <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:opacity-95 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-orange-500/25 transition">
           Haritada İşaretle ve Yayınla 🐾
         </button>
 
@@ -349,7 +356,7 @@
       <!-- Modal Başlık -->
       <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-base shadow-xs">
+          <div class="w-8 h-8 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-base shadow-xs">
             🛡️
           </div>
           <h3 class="font-extrabold text-slate-900 text-sm sm:text-base leading-none">Gizlilik ve Kullanım İlkeleri</h3>
@@ -363,18 +370,18 @@
       <div class="p-5 overflow-y-auto space-y-3.5 text-xs text-slate-600">
         
         <!-- Madde 1: Telefon ve Kişisel Veri Gizliliği -->
-        <div class="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100">
+        <div class="p-3.5 rounded-2xl bg-orange-50/60 border border-orange-100">
           <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
             <span>🔒</span>
             <h4>Kişisel Gizlilik ve Telefon Güvenliği</h4>
           </div>
           <p class="text-[11px] leading-relaxed text-slate-600">
-            SokakDostum platformunda kullanıcıların cep telefon numaraları herkese açık olarak <strong>asla listelenmez ve saklanmaz</strong>. İhbar sahibine veya sahiplendirene ulaşmak isteyen yardımseverler, doğrudan <strong>Instagram DM</strong> (<code class="bg-blue-100 text-blue-800 px-1 py-0.5 rounded text-[10px]">@kullaniciadi</code>) üzerinden güvenli kanal ile iletişime geçer. Bu sayede numara sızıntısı, spam ve kötü niyetli aramaların önüne geçilir.
+            SokakDostum platformunda kullanıcıların cep telefon numaraları herkese açık olarak <strong>asla listelenmez ve saklanmaz</strong>. İhbar sahibine veya sahiplendirene ulaşmak isteyen yardımseverler, doğrudan <strong>Instagram DM</strong> (<code class="bg-orange-100 text-orange-800 px-1 py-0.5 rounded text-[10px]">@kullaniciadi</code>) üzerinden güvenli kanal ile iletişime geçer. Bu sayede numara sızıntısı, spam ve kötü niyetli aramaların önüne geçilir.
           </p>
         </div>
 
         <!-- Madde 2: Nakit Para ve Bağış Talebi Yasağı -->
-        <div class="p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100">
+        <div class="p-3.5 rounded-2xl bg-slate-100/70 border border-slate-200">
           <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
             <span>🚫</span>
             <h4>Nakit Para ve Bağış Talebi Yasağı</h4>
@@ -385,7 +392,7 @@
         </div>
 
         <!-- Madde 3: Sahiplendirme ve Arşivleme İlkeleri -->
-        <div class="p-3.5 rounded-2xl bg-purple-50/60 border border-purple-100">
+        <div class="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-100">
           <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
             <span>🐾</span>
             <h4>Sahiplendirme, Ticaret Yasağı &amp; Arşivleme</h4>
@@ -410,7 +417,7 @@
 
       <!-- Alt Kapat / Kabul Butonu -->
       <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/70 flex items-center justify-end">
-        <button onclick="window.sokakUI.closePolicyModal()" class="py-2 px-5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/20 transition">
+        <button onclick="window.sokakUI.closePolicyModal()" class="py-2 px-5 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-orange-500/20 transition">
           Anladım
         </button>
       </div>

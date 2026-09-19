@@ -108,10 +108,10 @@ class SokakDostumMap {
     const btns = document.querySelectorAll('[data-map-layer]');
     btns.forEach(b => {
       if (b.getAttribute('data-map-layer') === activeStyle) {
-        b.classList.add('bg-blue-600', 'text-white', 'shadow-xs');
+        b.classList.add('bg-orange-600', 'text-white', 'shadow-xs');
         b.classList.remove('bg-white/90', 'text-slate-700');
       } else {
-        b.classList.remove('bg-blue-600', 'text-white', 'shadow-xs');
+        b.classList.remove('bg-orange-600', 'text-white', 'shadow-xs');
         b.classList.add('bg-white/90', 'text-slate-700');
       }
     });
@@ -164,18 +164,18 @@ class SokakDostumMap {
       pulseClass = 'pin-pulse-critical';
       icon = '🚨';
     } else if (report.urgency === 'transit') {
-      pinColor = 'bg-indigo-600';
+      pinColor = 'bg-rose-500';
       icon = '🚗';
     } else if (report.urgency === 'injured') {
       pinColor = 'bg-orange-500';
       icon = '🩹';
     } else if (report.urgency === 'shelter') {
-      pinColor = 'bg-blue-500';
+      pinColor = 'bg-amber-500';
       icon = '🏠';
     }
 
     if (report.status === 'adopted') {
-      pinColor = 'bg-purple-600';
+      pinColor = 'bg-emerald-600';
       pulseClass = '';
       icon = '🎉';
     } else if (report.status === 'archived' || report.status === 'resolved') {
@@ -214,7 +214,7 @@ class SokakDostumMap {
           <h4 class="font-bold text-slate-900 text-xs line-clamp-1 mb-1">${report.title}</h4>
           <p class="text-[11px] text-slate-500 line-clamp-2 mb-2.5">${report.description}</p>
           <div class="flex items-center gap-1.5 pt-2 border-t border-slate-100">
-            <button onclick="window.sokakUI.openReportDetailModal('${report.id}')" class="flex-1 py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold transition text-center shadow-xs">
+            <button onclick="window.sokakUI.openReportDetailModal('${report.id}')" class="flex-1 py-1.5 px-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-lg text-[11px] font-bold transition text-center shadow-xs">
               İncele & Destek
             </button>
             <a href="https://www.google.com/maps/dir/?api=1&destination=${report.lat},${report.lng}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition text-center">
@@ -232,7 +232,7 @@ class SokakDostumMap {
   createVetMarker(vet) {
     const pinIcon = L.divIcon({
       className: 'custom-pin',
-      html: `<div class="pin-bubble bg-blue-600 text-white font-black text-sm">🏥</div>`,
+      html: `<div class="pin-bubble bg-rose-600 text-white font-black text-sm">🏥</div>`,
       iconSize: [38, 38],
       iconAnchor: [19, 19]
     });
@@ -245,12 +245,12 @@ class SokakDostumMap {
           <span class="px-2 py-0.5 text-[10px] font-extrabold rounded-full ${vet.isOpen247 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}">
             ${vet.isOpen247 ? '7/24 Nöbetçi' : (vet.hours || 'Açık')}
           </span>
-          <span class="text-[10px] text-blue-700 font-bold bg-blue-50 px-1.5 py-0.5 rounded">${vet.badge || 'Klinik'}</span>
+          <span class="text-[10px] text-rose-700 font-bold bg-rose-50 px-1.5 py-0.5 rounded">${vet.badge || 'Klinik'}</span>
         </div>
         <h4 class="font-bold text-slate-900 text-sm mb-1">${vet.name}</h4>
         <p class="text-[11px] text-slate-500 mb-3">${vet.address}</p>
         <div class="grid grid-cols-2 gap-1.5">
-          <a href="tel:${vet.phone.replace(/\s+/g, '')}" class="py-1.5 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold text-center transition">
+          <a href="tel:${vet.phone.replace(/\s+/g, '')}" class="py-1.5 px-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold text-center transition">
             📞 Kliniği Ara
           </a>
           <a href="https://www.google.com/maps/dir/?api=1&destination=${vet.lat},${vet.lng}" target="_blank" rel="noopener noreferrer" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold text-center transition">
@@ -268,7 +268,7 @@ class SokakDostumMap {
     const isPetshop = point.type === 'petshop';
     const pinIcon = L.divIcon({
       className: 'custom-pin',
-      html: `<div class="pin-bubble ${isPetshop ? 'bg-purple-600' : 'bg-amber-600'} text-white text-sm">${isPetshop ? '🏪' : '🥣'}</div>`,
+      html: `<div class="pin-bubble ${isPetshop ? 'bg-orange-600' : 'bg-amber-600'} text-white text-sm">${isPetshop ? '🏪' : '🥣'}</div>`,
       iconSize: [38, 38],
       iconAnchor: [19, 19]
     });
@@ -277,7 +277,7 @@ class SokakDostumMap {
 
     const popupHtml = `
       <div class="p-3 font-sans">
-        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full ${isPetshop ? 'bg-purple-100 text-purple-700' : 'bg-amber-100 text-amber-800'} mb-1 inline-block">
+        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full ${isPetshop ? 'bg-orange-100 text-orange-800' : 'bg-amber-100 text-amber-800'} mb-1 inline-block">
           ${isPetshop ? 'Petshop Dayanışma' : 'Mama / Su İstasyonu'}
         </span>
         <h4 class="font-bold text-slate-900 text-xs mb-1">${point.name}</h4>
@@ -333,7 +333,7 @@ class SokakDostumMap {
 
     const pinIcon = L.divIcon({
       className: 'custom-pin',
-      html: `<div class="pin-bubble bg-blue-600 text-white font-bold text-base shadow-lg animate-bounce">📍</div>`,
+      html: `<div class="pin-bubble bg-orange-600 text-white font-bold text-base shadow-lg animate-bounce">📍</div>`,
       iconSize: [38, 38],
       iconAnchor: [19, 38]
     });

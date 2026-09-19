@@ -119,10 +119,10 @@ class SokakDostumUI {
     tabBtns.forEach(btn => {
       const bTab = btn.getAttribute('data-tab-btn');
       if (bTab === tab) {
-        btn.classList.add('bg-blue-600', 'text-white', 'shadow-xs');
+        btn.classList.add('bg-gradient-to-r', 'from-orange-500', 'to-rose-500', 'text-white', 'shadow-xs');
         btn.classList.remove('text-slate-600', 'hover:bg-slate-100');
       } else {
-        btn.classList.remove('bg-blue-600', 'text-white', 'shadow-xs');
+        btn.classList.remove('bg-gradient-to-r', 'from-orange-500', 'to-rose-500', 'text-white', 'shadow-xs');
         btn.classList.add('text-slate-600', 'hover:bg-slate-100');
       }
     });
@@ -144,7 +144,7 @@ class SokakDostumUI {
         archiveBtn.className = 'px-2.5 py-1 text-[11px] font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition';
       } else {
         activeBtn.className = 'px-2.5 py-1 text-[11px] font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition';
-        archiveBtn.className = 'px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white shadow-xs text-purple-900 transition';
+        archiveBtn.className = 'px-2.5 py-1 text-[11px] font-bold rounded-lg bg-white shadow-xs text-orange-950 transition';
       }
     }
   }
@@ -155,10 +155,10 @@ class SokakDostumUI {
     const btns = document.querySelectorAll('[data-animal-btn]');
     btns.forEach(b => {
       if (b.getAttribute('data-animal-btn') === animal) {
-        b.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+        b.classList.add('bg-orange-600', 'text-white', 'border-orange-600');
         b.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
       } else {
-        b.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+        b.classList.remove('bg-orange-600', 'text-white', 'border-orange-600');
         b.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
       }
     });
@@ -199,7 +199,7 @@ class SokakDostumUI {
         <span class="w-2 h-2 rounded-full bg-red-600 animate-ping shrink-0"></span>
         <span class="font-bold text-red-700 shrink-0">🚨 Acil:</span>
         <span class="font-semibold text-slate-800 truncate text-[11px] sm:text-xs">${critical.title}</span>
-        <span class="text-[10px] font-bold text-blue-700 ml-0.5 shrink-0">Gör →</span>
+        <span class="text-[10px] font-bold text-orange-600 ml-0.5 shrink-0">Gör →</span>
       </div>
     `;
   }
@@ -218,7 +218,7 @@ class SokakDostumUI {
             <span class="text-3xl block mb-2">${state.viewArchive ? '🏠' : '🐾'}</span>
             <p class="text-xs font-semibold">${state.viewArchive ? 'Henüz arşivde vaka bulunmuyor.' : 'Bu filtrelere uygun aktif vaka bulunamadı.'}</p>
             ${!state.viewArchive ? `
-              <button onclick="window.sokakUI.openNewReportModal()" class="mt-3 px-3 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-bold shadow-xs">
+              <button onclick="window.sokakUI.openNewReportModal()" class="mt-3 px-3.5 py-1.5 bg-gradient-to-r from-orange-500 to-rose-500 text-white rounded-xl text-xs font-bold shadow-xs">
                 + Yeni Vaka Bildir
               </button>
             ` : ''}
@@ -236,17 +236,17 @@ class SokakDostumUI {
         let badgeClass = 'bg-amber-100 text-amber-800';
         let badgeText = '🥣 Mama/Su';
         if (r.urgency === 'critical') { badgeClass = 'bg-red-100 text-red-800 font-extrabold'; badgeText = '🚨 Hayati'; }
-        if (r.urgency === 'transit') { badgeClass = 'badge-transit font-extrabold'; badgeText = '🚗 Araç Lazım'; }
+        if (r.urgency === 'transit') { badgeClass = 'bg-rose-100 text-rose-800 font-extrabold'; badgeText = '🚗 Araç Lazım'; }
         if (r.urgency === 'injured') { badgeClass = 'bg-orange-100 text-orange-800 font-bold'; badgeText = '🩹 Yaralı'; }
-        if (r.urgency === 'shelter') { badgeClass = 'bg-blue-100 text-blue-800 font-semibold'; badgeText = '🏠 Yuva Arayan'; }
-        if (isAdopted) { badgeClass = 'bg-purple-100 text-purple-800 font-extrabold'; badgeText = '🎉 Yuva Buldu'; }
+        if (r.urgency === 'shelter') { badgeClass = 'bg-amber-100 text-amber-800 font-semibold'; badgeText = '🏠 Yuva Arayan'; }
+        if (isAdopted) { badgeClass = 'bg-emerald-100 text-emerald-800 font-extrabold'; badgeText = '🎉 Yuva Buldu'; }
 
         return `
-          <div class="bg-white/95 rounded-2xl p-3 border border-slate-200/80 shadow-xs hover:shadow-md transition group ${isCritical ? 'ring-1 ring-red-400' : ''} ${isTransit ? 'ring-1 ring-indigo-300' : ''} ${isAdopted ? 'bg-purple-50/40 border-purple-200' : ''}">
+          <div class="bg-white/95 rounded-2xl p-3 border border-slate-200/80 shadow-xs hover:shadow-md transition group ${isCritical ? 'ring-1 ring-red-400' : ''} ${isTransit ? 'ring-1 ring-rose-300' : ''} ${isAdopted ? 'bg-emerald-50/40 border-emerald-200' : ''}">
             <div class="flex gap-3">
               <div class="w-20 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 relative">
                 <img src="${r.image}" alt="${r.title}" class="w-full h-full object-cover group-hover:scale-105 transition" onerror="this.src='${window.sokakStore.getAnimalPlaceholder(r.type)}'"/>
-                ${isAdopted ? '<div class="absolute inset-0 bg-purple-900/60 flex items-center justify-center text-[10px] text-white font-extrabold">YUVADA 🎉</div>' : ''}
+                ${isAdopted ? '<div class="absolute inset-0 bg-emerald-950/70 flex items-center justify-center text-[10px] text-white font-extrabold">YUVADA 🎉</div>' : ''}
                 ${isArchived ? '<div class="absolute inset-0 bg-slate-900/60 flex items-center justify-center text-[10px] text-white font-bold">ARŞİV</div>' : ''}
               </div>
 
@@ -259,16 +259,16 @@ class SokakDostumUI {
                     <span class="text-[10px] text-slate-400">${this.formatTimeAgo(r.createdAt)}</span>
                   </div>
 
-                  <h4 onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="font-bold text-slate-900 text-xs leading-snug line-clamp-1 cursor-pointer hover:text-blue-700 transition">
+                  <h4 onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="font-bold text-slate-900 text-xs leading-snug line-clamp-1 cursor-pointer hover:text-orange-600 transition">
                     ${r.title}
                   </h4>
                   <p class="text-[11px] text-slate-500 line-clamp-1 mb-1 flex items-center gap-1">
-                    ${r.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${r.distanceText}</span>` : ''}
+                    ${r.distanceText ? `<span class="font-bold text-orange-700 bg-orange-50 border border-orange-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${r.distanceText}</span>` : ''}
                     <span class="truncate">📍 ${r.locationName}</span>
                   </p>
                   ${r.supportCount > 0 ? `
-                    <div class="text-[10px] text-indigo-700 font-semibold flex items-center gap-1">
-                      <span class="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse"></span>
+                    <div class="text-[10px] text-rose-700 font-semibold flex items-center gap-1">
+                      <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
                       <span>${r.supportCount} kişi sahada ilgilendi</span>
                     </div>
                   ` : ''}
@@ -277,7 +277,7 @@ class SokakDostumUI {
                 <div class="flex items-center justify-between gap-1.5 pt-1 border-t border-slate-100">
                   <div class="flex items-center gap-1 text-[11px] text-slate-600 truncate">
                     ${r.instagram ? `
-                      <a href="https://instagram.com/${r.instagram}" target="_blank" rel="noopener noreferrer" class="text-purple-700 font-bold hover:underline flex items-center gap-0.5">
+                      <a href="https://instagram.com/${r.instagram}" target="_blank" rel="noopener noreferrer" class="text-rose-600 font-bold hover:underline flex items-center gap-0.5">
                         <span>📸</span>
                         <span>@${r.instagram}</span>
                       </a>
@@ -285,13 +285,13 @@ class SokakDostumUI {
                   </div>
 
                   <div class="flex items-center gap-1">
-                    <button onclick="window.sokakUI.openNavigation(${r.lat}, ${r.lng})" class="py-1 px-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-[11px] font-bold transition" title="Google Maps Rota">
+                    <button onclick="window.sokakUI.openNavigation(${r.lat}, ${r.lng})" class="py-1 px-1.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-lg text-[11px] font-bold transition" title="Google Maps Rota">
                       🧭 Rota
                     </button>
                     <button onclick="window.sokakUI.focusItem(${r.lat}, ${r.lng}, '${r.id}')" class="py-1 px-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold transition" title="Haritada Odaklan">
                       Harita
                     </button>
-                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
+                    <button onclick="window.sokakUI.openReportDetailModal('${r.id}')" class="py-1 px-2 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 text-white rounded-lg text-[11px] font-bold transition shadow-xs">
                       Detay
                     </button>
                   </div>
@@ -311,22 +311,22 @@ class SokakDostumUI {
             <span class="px-2 py-0.5 text-[10px] font-extrabold rounded-full ${v.isOpen247 ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-600'}">
               ${v.isOpen247 ? '🚨 7/24 Nöbetçi' : (v.hours || 'Açık')}
             </span>
-            <span class="text-[10px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md">
+            <span class="text-[10px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md">
               ${v.badge || 'Klinik'}
             </span>
           </div>
 
           <h4 class="font-bold text-slate-900 text-xs mb-0.5">${v.name}</h4>
           <p class="text-[11px] text-slate-500 mb-2.5 flex items-center gap-1">
-            ${v.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${v.distanceText}</span>` : ''}
+            ${v.distanceText ? `<span class="font-bold text-rose-700 bg-rose-50 border border-rose-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${v.distanceText}</span>` : ''}
             <span class="truncate">📍 ${v.address}</span>
           </p>
 
           <div class="grid grid-cols-3 gap-1">
-            <a href="tel:${v.phone.replace(/\s+/g, '')}" class="py-1.5 px-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+            <a href="tel:${v.phone.replace(/\s+/g, '')}" class="py-1.5 px-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
               <span>📞</span> Ara
             </a>
-            <button onclick="window.sokakUI.openNavigation(${v.lat}, ${v.lng})" class="py-1.5 px-1 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+            <button onclick="window.sokakUI.openNavigation(${v.lat}, ${v.lng})" class="py-1.5 px-1 bg-rose-50 hover:bg-rose-100 text-rose-800 rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
               <span>🧭</span> Rota
             </button>
             <button onclick="window.sokakUI.focusItem(${v.lat}, ${v.lng})" class="py-1.5 px-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
@@ -344,18 +344,18 @@ class SokakDostumUI {
         return `
           <div class="bg-white/95 rounded-2xl p-3.5 border border-slate-200/80 shadow-xs hover:shadow-md transition">
             <div class="flex items-center gap-1.5 mb-1">
-              <span class="px-2 py-0.5 text-[10px] font-bold rounded-full ${isPetshop ? 'bg-purple-100 text-purple-700' : 'bg-teal-100 text-teal-700'}">
+              <span class="px-2 py-0.5 text-[10px] font-bold rounded-full ${isPetshop ? 'bg-orange-100 text-orange-800' : 'bg-amber-100 text-amber-800'}">
                 ${isPetshop ? '🏪 Petshop Dayanışma' : '🥣 Mama/Su İstasyonu'}
               </span>
             </div>
             <h4 class="font-bold text-slate-900 text-xs mb-0.5">${p.name}</h4>
-            <p class="text-[11px] text-blue-800 font-medium mb-1">✓ ${p.status}</p>
+            <p class="text-[11px] text-amber-800 font-medium mb-1">✓ ${p.status}</p>
             <p class="text-[11px] text-slate-400 mb-2.5 flex items-center gap-1">
-              ${p.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${p.distanceText}</span>` : ''}
+              ${p.distanceText ? `<span class="font-bold text-orange-700 bg-orange-50 border border-orange-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${p.distanceText}</span>` : ''}
               <span class="truncate">📍 ${p.address}</span>
             </p>
             <div class="grid grid-cols-2 gap-1.5">
-              <button onclick="window.sokakUI.openNavigation(${p.lat}, ${p.lng})" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
+              <button onclick="window.sokakUI.openNavigation(${p.lat}, ${p.lng})" class="py-1.5 px-2 bg-orange-50 hover:bg-orange-100 text-orange-800 rounded-lg text-[11px] font-bold text-center transition flex items-center justify-center gap-1">
                 <span>🧭</span> Yol Tarifi
               </button>
               <button onclick="window.sokakUI.focusItem(${p.lat}, ${p.lng})" class="py-1.5 px-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[11px] font-semibold text-center transition">
@@ -394,9 +394,9 @@ class SokakDostumUI {
     const btns = document.querySelectorAll('[data-form-animal]');
     btns.forEach(b => {
       if (b.getAttribute('data-form-animal') === type) {
-        b.classList.add('ring-2', 'ring-blue-600', 'bg-blue-50');
+        b.classList.add('ring-2', 'ring-orange-500', 'bg-orange-50');
       } else {
-        b.classList.remove('ring-2', 'ring-blue-600', 'bg-blue-50');
+        b.classList.remove('ring-2', 'ring-orange-500', 'bg-orange-50');
       }
     });
   }
@@ -517,7 +517,7 @@ class SokakDostumUI {
           <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-white/95 text-slate-900 shadow-md">
             ${isAdopted ? '🎉 Yuva Buldu' : urgencyLabels[report.urgency] || 'Yardım Çağrısı'}
           </span>
-          ${isAdopted ? '<span class="px-2 py-0.5 text-[11px] font-extrabold bg-purple-600 text-white rounded-full shadow-md">Arşivde</span>' : ''}
+          ${isAdopted ? '<span class="px-2 py-0.5 text-[11px] font-extrabold bg-emerald-600 text-white rounded-full shadow-md">Arşivde</span>' : ''}
         </div>
       </div>
 
@@ -529,7 +529,7 @@ class SokakDostumUI {
 
         <h3 class="text-base font-extrabold text-slate-900 mb-1">${report.title}</h3>
         <p class="text-xs text-slate-500 mb-3 flex items-center gap-1">
-          ${report.distanceText ? `<span class="font-bold text-blue-700 bg-blue-50 border border-blue-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${report.distanceText}</span>` : ''}
+          ${report.distanceText ? `<span class="font-bold text-orange-700 bg-orange-50 border border-orange-100 px-1.5 py-0.2 rounded-md text-[10px] shrink-0">${report.distanceText}</span>` : ''}
           <span class="truncate">📍 ${report.locationName}</span>
         </p>
 
@@ -543,7 +543,7 @@ class SokakDostumUI {
             <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
               <span>🔒 Güvenli İletişim</span>
             </span>
-            <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-[10px] text-blue-600 hover:underline font-semibold flex items-center gap-0.5">
+            <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-[10px] text-orange-600 hover:underline font-semibold flex items-center gap-0.5">
               <span>Gizlilik Politikamız</span> ↗
             </button>
           </div>
@@ -565,7 +565,7 @@ class SokakDostumUI {
           <h5 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Dayanışma & Süreç (${report.supports?.length || 0})</h5>
           <div class="space-y-1 max-h-24 overflow-y-auto">
             ${report.supports && report.supports.length > 0 ? report.supports.map(s => `
-              <div class="text-xs text-blue-800 bg-blue-50 px-2.5 py-1.5 rounded-lg border border-blue-100/60">
+              <div class="text-xs text-orange-800 bg-orange-50 px-2.5 py-1.5 rounded-lg border border-orange-100/60">
                 ✓ ${s}
               </div>
             `).join('') : '<p class="text-xs text-slate-400 italic">Henüz bir eylem kaydı yok.</p>'}
@@ -581,7 +581,7 @@ class SokakDostumUI {
               <span class="text-sm">💬</span>
               <span>WhatsApp'ta Paylaş</span>
             </button>
-            <button onclick="window.sokakUI.openNavigation(${report.lat}, ${report.lng})" class="py-2.5 px-3 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
+            <button onclick="window.sokakUI.openNavigation(${report.lat}, ${report.lng})" class="py-2.5 px-3 bg-gradient-to-r from-orange-500 to-rose-500 hover:opacity-95 active:scale-95 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-sm">
               <span class="text-sm">🧭</span>
               <span>Yol Tarifi Al</span>
             </button>
@@ -592,7 +592,7 @@ class SokakDostumUI {
             <div class="p-2.5 bg-slate-50 rounded-2xl border border-slate-200/80">
               <span class="block text-[11px] font-bold text-slate-700 mb-1.5">🤝 Sahada mısınız? Durumu Bildirin:</span>
               <div class="grid grid-cols-2 gap-2">
-                <button onclick="window.sokakUI.addSupport('${report.id}', '🚗 Kontrole gidiliyor / yolda')" class="py-2 px-2 bg-white hover:bg-indigo-50 hover:border-indigo-300 text-indigo-950 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-2xs">
+                <button onclick="window.sokakUI.addSupport('${report.id}', '🚗 Kontrole gidiliyor / yolda')" class="py-2 px-2 bg-white hover:bg-orange-50 hover:border-orange-300 text-orange-950 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1 shadow-2xs">
                   <span>🚗</span>
                   <span>Yoldayım / İlgileniyorum</span>
                 </button>
@@ -606,12 +606,12 @@ class SokakDostumUI {
 
           <!-- Sahiplendirme / Arşivleme Özel Butonu -->
           ${!isAdopted && !isArchived ? `
-            <button onclick="window.sokakUI.markAdopted('${report.id}')" class="w-full py-2 px-3 bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
+            <button onclick="window.sokakUI.markAdopted('${report.id}')" class="w-full py-2 px-3 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
               <span>🎉</span>
               <span>Sahiplendirildi / Yuvaya Kavuştu (Arşive Kaldır)</span>
             </button>
           ` : `
-            <div class="p-2.5 bg-purple-50 border border-purple-200 rounded-xl text-center text-xs text-purple-900 font-bold flex items-center justify-center gap-2">
+            <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-center text-xs text-amber-900 font-bold flex items-center justify-center gap-2">
               <span>🎉</span>
               <span>Bu can dostumuz sıcak bir yuvaya kavuştu! İlan arşivlendi.</span>
             </div>
@@ -695,7 +695,7 @@ class SokakDostumUI {
         <ul class="space-y-1 pl-1">
           ${tip.steps.map(s => `
             <li class="text-[11px] text-slate-600 flex items-start gap-1.5">
-              <span class="text-blue-600 font-bold">•</span>
+              <span class="text-orange-600 font-bold">•</span>
               <span>${s}</span>
             </li>
           `).join('')}
