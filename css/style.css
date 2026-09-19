@@ -19,7 +19,7 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   background-color: #0f172a;
   color: #0f172a;
@@ -27,7 +27,16 @@ body {
   padding: 0;
   overflow: hidden;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+}
+
+/* Leaflet Varsayılan Zoom Çakışmasını Engelle (z-index 1000 sorununu çözer) */
+.leaflet-control-zoom {
+  display: none !important;
 }
 
 /* Cam Efekti (Glassmorphism) - Yüksek Kontrastlı */
@@ -183,20 +192,41 @@ body {
   transform: scale(1) translateY(0);
 }
 
-/* Mobil Alt Çekmece (Bottom Sheet) Boyutları */
+/* Mobil Alt Çekmece (Bottom Sheet) Boyutları ve Akıcı Geçişler */
 @media (max-width: 768px) {
   #sliding-panel {
-    border-top: 1px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.22);
+    transition: height 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+    touch-action: pan-y;
+    overscroll-behavior: contain;
   }
+
+  /* 1. Peek: Haritayı ferah ve açık bırakan zarif mini alt bar */
   .sheet-peek {
-    height: 128px !important;
+    height: 98px !important;
   }
+  .sheet-peek #sheet-expandable-filters {
+    display: none !important;
+  }
+  .sheet-peek #panel-items-container {
+    display: none !important;
+  }
+  .sheet-peek #panel-footer-bar {
+    display: none !important;
+  }
+
+  /* 2. Half: Liste ve harita dengeli görünüm */
   .sheet-half {
-    height: 52vh !important;
+    height: 50vh !important;
+    height: 50dvh !important;
   }
+
+  /* 3. Full: Rahat liste inceleme modu */
   .sheet-full {
-    height: calc(100vh - 68px) !important;
+    height: calc(100vh - 64px) !important;
+    height: calc(100dvh - 64px) !important;
+    z-index: 35 !important;
   }
 }
 

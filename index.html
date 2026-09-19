@@ -28,10 +28,10 @@
   <!-- 1. TAM EKRAN HARİTA ALANI (CANVAS) -->
   <div id="map-container" class="absolute inset-0 w-full h-full z-0"></div>
 
-  <!-- HARİTA SAĞ YÜZEN KONTROLLERİ (GPS & KATMANLAR) -->
-  <div class="absolute top-16 right-2.5 sm:top-20 sm:right-4 z-20 flex flex-col items-center gap-2 pointer-events-auto">
+  <!-- HARİTA SAĞ YÜZEN KONTROLLERİ (GPS & KATMANLAR - MOBİLDE ALT ÇEKMECE ÜSTÜNDE, ASLA ÇAKIŞMAZ) -->
+  <div id="map-fab-controls" class="absolute right-3 bottom-28 sm:bottom-auto sm:top-20 sm:right-4 z-10 flex flex-col items-center gap-2 pointer-events-auto transition-all duration-300">
     <!-- GPS / Konumumu Bul -->
-    <button onclick="window.sokakUI.getGPSLocation()" class="w-9 h-9 rounded-2xl bg-white/95 hover:bg-orange-50 text-slate-700 shadow-md border border-white/90 flex items-center justify-center text-sm active:scale-95 transition" title="Konumumu Bul">
+    <button onclick="window.sokakUI.getGPSLocation()" class="w-10 h-10 rounded-2xl bg-white/95 hover:bg-orange-50 text-slate-700 shadow-md border border-white/90 flex items-center justify-center text-base active:scale-95 transition" title="Konumumu Bul">
       📍
     </button>
 
@@ -113,18 +113,21 @@
   </header>
 
   <!-- 3. YÜZEN LİSTE PANELİ (DESKTOP: FLOATING SIDEBAR, MOBİL: SLIDING BOTTOM SHEET) -->
-  <aside id="sliding-panel" class="absolute bottom-0 inset-x-0 md:inset-x-auto md:top-20 md:bottom-4 md:left-4 md:w-96 rounded-t-3xl md:rounded-3xl glass-panel shadow-2xl z-20 flex flex-col transition-all duration-300 sheet-half md:sheet-auto md:max-h-[calc(100vh-100px)]">
+  <aside id="sliding-panel" class="absolute bottom-0 inset-x-0 md:inset-x-auto md:top-20 md:bottom-4 md:left-4 md:w-96 rounded-t-3xl md:rounded-3xl glass-panel shadow-2xl z-20 flex flex-col sheet-peek md:sheet-auto md:max-h-[calc(100vh-100px)]">
     
     <!-- Mobil İçin Çekme Tutamacı (Drag Handle) -->
-    <div id="sheet-drag-handle" class="md:hidden pt-2.5 pb-1 flex flex-col items-center justify-center cursor-pointer">
-      <div class="w-12 h-1.5 bg-slate-300 rounded-full"></div>
+    <div id="sheet-drag-handle" class="md:hidden pt-2.5 pb-1 flex flex-col items-center justify-center cursor-pointer select-none">
+      <div class="w-12 h-1.5 bg-slate-300 rounded-full mb-1"></div>
+      <div id="sheet-indicator-text" class="text-[10px] font-bold text-slate-500 flex items-center gap-1">
+        <span>▲ Listeyi Göster</span>
+      </div>
     </div>
 
     <!-- Panel Başlığı & Sekme Butonları -->
     <div class="p-3 border-b border-slate-200/60 shrink-0">
       
       <!-- Ana Sekmeler: Vakalar | Klinikler | Mama Noktaları -->
-      <div class="grid grid-cols-3 gap-1 bg-slate-100/90 p-1 rounded-xl mb-2">
+      <div class="grid grid-cols-3 gap-1 bg-slate-100/90 p-1 rounded-xl">
         <button onclick="window.sokakUI.switchTab('reports')" data-tab-btn="reports" class="py-1.5 text-center text-xs font-bold rounded-lg transition bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-xs">
           🚨 Vakalar (<span id="count-reports">0</span>)
         </button>
@@ -136,45 +139,48 @@
         </button>
       </div>
 
-      <!-- Vakalar Görünüm Seçimi: Aktif vs Sahiplendirilenler & Arşiv -->
-      <div class="flex items-center justify-between gap-1 mb-2 bg-slate-200/60 p-0.5 rounded-xl">
-        <button id="view-active-btn" onclick="window.sokakUI.toggleArchiveView(false)" class="flex-1 py-1 text-[11px] font-bold rounded-lg bg-white shadow-xs text-slate-900 transition text-center">
-          🚨 Aktif İlanlar
-        </button>
-        <button id="view-archive-btn" onclick="window.sokakUI.toggleArchiveView(true)" class="flex-1 py-1 text-[11px] font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition text-center flex items-center justify-center gap-1">
-          <span>🎉 Yuva Bulanlar & Arşiv</span>
-          <span id="count-adopted" class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-bold">0</span>
-        </button>
-      </div>
+      <!-- Genişletilebilir Filtreler Alanı (Mobilde Yalnızca Genişletildiğinde Görünür) -->
+      <div id="sheet-expandable-filters" class="mt-2 space-y-2">
+        <!-- Vakalar Görünüm Seçimi: Aktif vs Sahiplendirilenler & Arşiv -->
+        <div class="flex items-center justify-between gap-1 bg-slate-200/60 p-0.5 rounded-xl">
+          <button id="view-active-btn" onclick="window.sokakUI.toggleArchiveView(false)" class="flex-1 py-1 text-[11px] font-bold rounded-lg bg-white shadow-xs text-slate-900 transition text-center">
+            🚨 Aktif İlanlar
+          </button>
+          <button id="view-archive-btn" onclick="window.sokakUI.toggleArchiveView(true)" class="flex-1 py-1 text-[11px] font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition text-center flex items-center justify-center gap-1">
+            <span>🎉 Yuva Bulanlar & Arşiv</span>
+            <span id="count-adopted" class="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-bold">0</span>
+          </button>
+        </div>
 
-      <!-- Hayvan Türü Hızlı Filtre Çipleri -->
-      <div class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none">
-        <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-orange-600 text-white border-orange-600 whitespace-nowrap transition">
-          Tümü
-        </button>
-        <button onclick="window.sokakUI.setAnimalFilter('kedi')" data-animal-btn="kedi" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
-          🐱 Kedi
-        </button>
-        <button onclick="window.sokakUI.setAnimalFilter('kopek')" data-animal-btn="kopek" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
-          🐶 Köpek
-        </button>
-        <button onclick="window.sokakUI.setAnimalFilter('kus')" data-animal-btn="kus" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
-          🕊️ Kuş
-        </button>
-        <button onclick="window.sokakUI.setAnimalFilter('diger')" data-animal-btn="diger" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
-          🦔 Diğer
-        </button>
+        <!-- Hayvan Türü Hızlı Filtre Çipleri -->
+        <div class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none">
+          <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-orange-600 text-white border-orange-600 whitespace-nowrap transition">
+            Tümü
+          </button>
+          <button onclick="window.sokakUI.setAnimalFilter('kedi')" data-animal-btn="kedi" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+            🐱 Kedi
+          </button>
+          <button onclick="window.sokakUI.setAnimalFilter('kopek')" data-animal-btn="kopek" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+            🐶 Köpek
+          </button>
+          <button onclick="window.sokakUI.setAnimalFilter('kus')" data-animal-btn="kus" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+            🕊️ Kuş
+          </button>
+          <button onclick="window.sokakUI.setAnimalFilter('diger')" data-animal-btn="diger" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+            🦔 Diğer
+          </button>
+        </div>
       </div>
 
     </div>
 
     <!-- Dinamik Kartlar Listesi (Scrollable) -->
-    <div id="panel-items-container" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+    <div id="panel-items-container" class="flex-1 overflow-y-auto p-3 space-y-2.5 overscroll-contain">
       <!-- JS kartları basar -->
     </div>
 
     <!-- Panel Sabit Alt Barı: Telif & Gizlilik Politikası Butonu -->
-    <div class="px-3.5 py-2 border-t border-slate-200/70 bg-white/90 backdrop-blur-xs shrink-0 flex items-center justify-between text-[11px]">
+    <div id="panel-footer-bar" class="px-3.5 py-2 border-t border-slate-200/70 bg-white/90 backdrop-blur-xs shrink-0 flex items-center justify-between text-[11px]">
       <span class="font-bold text-slate-700">SokakDostum</span>
       <div class="flex items-center gap-2.5 font-semibold text-slate-600">
         <button onclick="window.sokakUI.openFirstAidModal()" class="hover:text-red-600 transition flex items-center gap-1">
@@ -186,7 +192,6 @@
         </button>
       </div>
     </div>
-
   </aside>
 
   <!-- 4. MODAL 1: KAYITSIZ HIZLI VAKA BİLDİRİMİ -->

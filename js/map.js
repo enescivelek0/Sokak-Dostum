@@ -19,14 +19,11 @@ class SokakDostumMap {
     const el = document.getElementById(this.containerId);
     if (!el) return;
 
-    // Harita oluşturma
+    // Harita oluşturma (Modern dokunmatik pinch-zoom & çift tıklama tam destekli)
     this.map = L.map(this.containerId, {
       zoomControl: false,
       attributionControl: false
     }).setView([41.015, 28.99], 13);
-
-    // Zoom kontrolü sağ üst köşeye
-    L.control.zoom({ position: 'topright' }).addTo(this.map);
 
     // İlk katmanı yükle (Mapbox veya Açık Kaynak Yedek)
     const initialStyle = (window.APP_CONFIG && window.APP_CONFIG.DEFAULT_MAP_STYLE) || 'streets';

@@ -31,9 +31,43 @@ class SokakDostumUI {
       });
     }
 
-    // Mobil Çekmece Tutamaç Tıklaması (Peek <-> Half <-> Full)
+    // Mobil Çekmece Dokunmatik Kaydırma (Swipe) ve Tıklama Yönetimi
     const dragHandle = document.getElementById('sheet-drag-handle');
     if (dragHandle) {
+      let touchStartY = 0;
+      let touchStartTime = 0;
+
+      dragHandle.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length > 0) {
+          touchStartY = e.touches[0].clientY;
+          touchStartTime = Date.now();
+        }
+      }, { passive: true });
+
+      dragHandle.addEventListener('touchend', (e) => {
+        if (!e.changedTouches || e.changedTouches.length === 0) return;
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaY = touchEndY - touchStartY;
+        const deltaTime = Date.now() - touchStartTime;
+
+        // Yukarı / Aşağı kaydırma jesti
+        if (deltaY < -35) {
+          // Yukarı çekildi
+          if (this.sheetState === 'peek') this.setSheetState('half');
+          else if (this.sheetState === 'half') this.setSheetState('full');
+        } else if (deltaY > 35) {
+          // Aşağı çekildi
+          if (this.sheetState === 'full') this.setSheetState('half');
+          else if (this.sheetState === 'half') this.setSheetState('peek');
+        } else if (deltaTime < 280 && Math.abs(deltaY) < 15) {
+          // Hızlı tıklama / dokunma
+          if (this.sheetState === 'peek') this.setSheetState('half');
+          else if (this.sheetState === 'half') this.setSheetState('full');
+          else this.setSheetState('peek');
+        }
+      }, { passive: true });
+
+      // Masaüstü tıklama desteği
       dragHandle.addEventListener('click', () => {
         if (this.sheetState === 'peek') this.setSheetState('half');
         else if (this.sheetState === 'half') this.setSheetState('full');
@@ -83,16 +117,27 @@ class SokakDostumUI {
   setSheetState(state) {
     this.sheetState = state;
     const sheet = document.getElementById('sliding-panel');
+    const indicator = document.getElementById('sheet-indicator-text');
     if (!sheet) return;
 
     sheet.classList.remove('sheet-peek', 'sheet-half', 'sheet-full');
     sheet.classList.add(`sheet-${state}`);
 
+    if (indicator) {
+      if (state === 'peek') {
+        indicator.innerHTML = '<span>▲ Listeyi Göster</span>';
+      } else if (state === 'half') {
+        indicator.innerHTML = '<span>▲ Tam Ekran | ▼ Harita</span>';
+      } else {
+        indicator.innerHTML = '<span>▼ Haritaya Dön</span>';
+      }
+    }
+
     setTimeout(() => {
       if (window.sokakMap && window.sokakMap.map) {
         window.sokakMap.map.invalidateSize();
       }
-    }, 250);
+    }, 280);
   }
 
   toggleDesktopPanel() {
