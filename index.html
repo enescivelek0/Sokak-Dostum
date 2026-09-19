@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="tr" class="h-full w-full overflow-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SokakDostum - Sokak Hayvanları Acil Haritası & Dayanışma</title>
+  <meta name="description" content="Sokak hayvanları için kayıtsız acil vaka bildirimi, 7/24 nöbetçi veterinerler ve mama odakları interaktif haritası.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Leaflet Harita Kütüphanesi -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Özel Stiller -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-full w-full relative overflow-hidden bg-slate-900 font-sans select-none">
+
+  <!-- 1. TAM EKRAN HARİTA ALANI (CANVAS) -->
+  <div id="map-container" class="absolute inset-0 w-full h-full z-0"></div>
+
+  <!-- 2. ÜSTTE YÜZEN KOMPAKT KONTROL ÇUBUĞU (FLOATING BAR) -->
+  <header class="absolute top-3 inset-x-3 sm:inset-x-6 z-30 pointer-events-none flex flex-col items-center gap-2">
+    
+    <div class="w-full max-w-5xl glass-pill px-3 py-2 rounded-2xl shadow-xl border border-white/80 pointer-events-auto flex items-center justify-between gap-2 sm:gap-4">
+      
+      <!-- Sol: Marka Logo & Masaüstü Panel Butonu -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="window.sokakUI.toggleDesktopPanel()" id="panel-toggle-btn" class="hidden md:flex items-center gap-1 text-[11px] font-bold text-slate-600 hover:text-emerald-700 bg-slate-100/90 hover:bg-emerald-50 px-2 py-1.5 rounded-xl transition">
+          ◀ Paneli Gizle
+        </button>
+
+        <div class="flex items-center gap-2 cursor-pointer" onclick="window.sokakMap.flyTo(41.015, 28.99, 13)">
+          <div class="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white text-base shadow-sm">
+            🐾
+          </div>
+          <div>
+            <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 leading-none">
+              Sokak<span class="text-emerald-600">Dostum</span>
+            </h1>
+            <span class="text-[9px] font-semibold text-slate-400 hidden sm:inline">Acil Destek Haritası</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orta: Arama Kutusu -->
+      <div class="flex-1 max-w-sm relative">
+        <input type="text" id="search-input" placeholder="Vaka, semt veya klinik ara..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-100/90 hover:bg-white focus:bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition shadow-inner" />
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+
+      <!-- Sağ: GPS & İlk Yardım & Hızlı Bildir -->
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button onclick="window.sokakUI.getGPSLocation()" class="p-1.5 sm:px-2.5 sm:py-1.5 bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 rounded-xl text-slate-600 text-xs font-semibold transition flex items-center gap-1" title="Konumumu Göster">
+          <span>🛰️</span>
+          <span class="hidden sm:inline">Konumum</span>
+        </button>
+
+        <button onclick="window.sokakUI.openFirstAidModal()" class="p-1.5 sm:px-2.5 sm:py-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-700 rounded-xl text-slate-600 text-xs font-semibold transition flex items-center gap-1" title="Acil İlk Yardım Bilgisi">
+          <span>🩹</span>
+          <span class="hidden sm:inline">İlk Yardım</span>
+        </button>
+
+        <button onclick="window.sokakUI.openNewReportModal()" class="py-1.5 px-3 sm:px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-600/30 transition flex items-center gap-1.5">
+          <span class="text-sm">🚨</span>
+          <span>Vaka Bildir</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Üst Kayan/Yüzen Acil Alarm Hapı (Kritik Vaka Varsa Görünür) -->
+    <div id="floating-alert-pill" class="pointer-events-auto transition duration-300">
+      <!-- JS dinamik yerleştirir -->
+    </div>
+
+  </header>
+
+  <!-- 3. YÜZEN LİSTE PANELİ (DESKTOP: FLOATING SIDEBAR, MOBİL: SLIDING BOTTOM SHEET) -->
+  <aside id="sliding-panel" class="absolute bottom-0 inset-x-0 md:inset-x-auto md:top-20 md:bottom-4 md:left-4 md:w-96 rounded-t-3xl md:rounded-3xl glass-panel shadow-2xl z-20 flex flex-col transition-all duration-300 sheet-half md:sheet-auto md:max-h-[calc(100vh-100px)]">
+    
+    <!-- Mobil İçin Çekme Tutamacı (Drag Handle) -->
+    <div id="sheet-drag-handle" class="md:hidden pt-2.5 pb-1 flex flex-col items-center justify-center cursor-pointer">
+      <div class="w-12 h-1.5 bg-slate-300 rounded-full"></div>
+    </div>
+
+    <!-- Panel Başlığı & Sekme Butonları -->
+    <div class="p-3 border-b border-slate-200/60 shrink-0">
+      
+      <!-- Ana Sekmeler: Vakalar | Klinikler | Mama Noktaları -->
+      <div class="grid grid-cols-3 gap-1 bg-slate-100/90 p-1 rounded-xl mb-2">
+        <button onclick="window.sokakUI.switchTab('reports')" data-tab-btn="reports" class="py-1.5 text-center text-xs font-bold rounded-lg transition bg-emerald-600 text-white shadow-xs">
+          🚨 Vakalar (<span id="count-reports">0</span>)
+        </button>
+        <button onclick="window.sokakUI.switchTab('vets')" data-tab-btn="vets" class="py-1.5 text-center text-xs font-bold rounded-lg transition text-slate-600 hover:bg-slate-100">
+          🏥 Klinikler (<span id="count-vets">0</span>)
+        </button>
+        <button onclick="window.sokakUI.switchTab('points')" data-tab-btn="points" class="py-1.5 text-center text-xs font-bold rounded-lg transition text-slate-600 hover:bg-slate-100">
+          🥣 Mama (<span id="count-points">0</span>)
+        </button>
+      </div>
+
+      <!-- Vakalar Görünüm Seçimi: Aktif vs Sahiplendirilenler & Arşiv -->
+      <div class="flex items-center justify-between gap-1 mb-2 bg-slate-200/60 p-0.5 rounded-xl">
+        <button id="view-active-btn" onclick="window.sokakUI.toggleArchiveView(false)" class="flex-1 py-1 text-[11px] font-bold rounded-lg bg-white shadow-xs text-slate-900 transition text-center">
+          🚨 Aktif İlanlar
+        </button>
+        <button id="view-archive-btn" onclick="window.sokakUI.toggleArchiveView(true)" class="flex-1 py-1 text-[11px] font-semibold rounded-lg text-slate-500 hover:text-slate-700 transition text-center flex items-center justify-center gap-1">
+          <span>🎉 Yuva Bulanlar & Arşiv</span>
+          <span id="count-adopted" class="text-[9px] bg-purple-100 text-purple-700 px-1.5 py-0.2 rounded-full font-bold">0</span>
+        </button>
+      </div>
+
+      <!-- Hayvan Türü Hızlı Filtre Çipleri -->
+      <div class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none">
+        <button onclick="window.sokakUI.setAnimalFilter('all')" data-animal-btn="all" class="px-2.5 py-1 text-[11px] font-bold rounded-lg border bg-emerald-600 text-white border-emerald-600 whitespace-nowrap transition">
+          Tümü
+        </button>
+        <button onclick="window.sokakUI.setAnimalFilter('kedi')" data-animal-btn="kedi" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+          🐱 Kedi
+        </button>
+        <button onclick="window.sokakUI.setAnimalFilter('kopek')" data-animal-btn="kopek" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+          🐶 Köpek
+        </button>
+        <button onclick="window.sokakUI.setAnimalFilter('kus')" data-animal-btn="kus" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+          🕊️ Kuş
+        </button>
+        <button onclick="window.sokakUI.setAnimalFilter('diger')" data-animal-btn="diger" class="px-2.5 py-1 text-[11px] font-semibold rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 whitespace-nowrap transition">
+          🦔 Diğer
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Dinamik Kartlar Listesi (Scrollable) -->
+    <div id="panel-items-container" class="flex-1 overflow-y-auto p-3 space-y-2.5">
+      <!-- JS kartları basar -->
+    </div>
+
+  </aside>
+
+  <!-- 4. MODAL 1: KAYITSIZ HIZLI VAKA BİLDİRİMİ -->
+  <div id="new-report-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Başlık -->
+      <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🐾</span>
+          <div>
+            <h3 class="font-extrabold text-slate-900 text-sm sm:text-base leading-none">Hızlı Vaka Bildir</h3>
+            <span class="text-[10px] text-emerald-700 font-bold">Kayıt gerekmez • Anında yayında</span>
+          </div>
+        </div>
+        <button onclick="window.sokakUI.closeNewReportModal()" class="w-7 h-7 rounded-full bg-slate-200/80 hover:bg-slate-300 text-slate-700 flex items-center justify-center text-xs transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Form Alanı -->
+      <form id="report-form" onsubmit="window.sokakUI.submitReport(event)" class="p-5 overflow-y-auto space-y-3.5">
+        
+        <!-- Hayvan Türü Seçimi (Görsel Butonlar) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Hayvan Türü</label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" onclick="window.sokakUI.selectFormAnimal('kedi')" data-form-animal="kedi" class="p-2 border border-slate-200 rounded-xl text-center transition ring-2 ring-emerald-600 bg-emerald-50">
+              <span class="text-xl block">🐱</span>
+              <span class="text-[10px] font-bold text-slate-800">Kedi</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormAnimal('kopek')" data-form-animal="kopek" class="p-2 border border-slate-200 rounded-xl text-center transition">
+              <span class="text-xl block">🐶</span>
+              <span class="text-[10px] font-bold text-slate-800">Köpek</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormAnimal('kus')" data-form-animal="kus" class="p-2 border border-slate-200 rounded-xl text-center transition">
+              <span class="text-xl block">🕊️</span>
+              <span class="text-[10px] font-bold text-slate-800">Kuş</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormAnimal('diger')" data-form-animal="diger" class="p-2 border border-slate-200 rounded-xl text-center transition">
+              <span class="text-xl block">🦔</span>
+              <span class="text-[10px] font-bold text-slate-800">Diğer</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Aciliyet Derecesi -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Aciliyet Seviyesi</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('critical')" data-form-urgency="critical" class="py-1.5 px-2 bg-red-50 hover:bg-red-100 text-red-800 rounded-xl text-xs font-bold border border-red-200 text-left transition flex items-center gap-1.5">
+              <span>🚨</span>
+              <span>Hayati Tehlike (Acil)</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('injured')" data-form-urgency="injured" class="py-1.5 px-2 bg-orange-50 hover:bg-orange-100 text-orange-800 rounded-xl text-xs font-bold border border-orange-200 text-left transition flex items-center gap-1.5">
+              <span>🩹</span>
+              <span>Yaralı / Hasta</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('hungry')" data-form-urgency="hungry" class="py-1.5 px-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-xs font-bold border border-amber-200 text-left transition flex items-center gap-1.5 ring-2 ring-slate-900 font-extrabold">
+              <span>🥣</span>
+              <span>Aç / Susuz Dost</span>
+            </button>
+            <button type="button" onclick="window.sokakUI.selectFormUrgency('shelter')" data-form-urgency="shelter" class="py-1.5 px-2 bg-blue-50 hover:bg-blue-100 text-blue-800 rounded-xl text-xs font-bold border border-blue-200 text-left transition flex items-center gap-1.5">
+              <span>🏠</span>
+              <span>Geçici Yuva / Barınma</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Başlık -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Durum Başlığı *</label>
+          <input type="text" id="form-title" placeholder="Örn: Bacağı yaralı kedi acil nakil" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+        </div>
+
+        <!-- Konum Bilgisi -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Konum / Sokak Adresi *</label>
+          <input type="text" id="form-location-name" placeholder="Örn: Moda Parkı çeşme arkası" required class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none mb-2" />
+          
+          <div class="flex items-center gap-2">
+            <input type="text" id="form-coords-input" readonly placeholder="Harita Koordinatı" class="flex-1 text-[11px] px-2.5 py-1.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-500" />
+            <button type="button" onclick="window.sokakUI.pickLocationOnMap()" class="py-1.5 px-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-xs font-bold border border-emerald-200 transition">
+              📍 Haritadan Seç
+            </button>
+            <button type="button" onclick="window.sokakUI.getGPSLocation()" class="py-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition">
+              🛰️ GPS
+            </button>
+          </div>
+        </div>
+
+        <!-- Açıklama -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Açıklama & İhtiyaç</label>
+          <textarea id="form-description" rows="2" placeholder="Hayvanın genel hali, kutuda mı, acil klinik mi lazım?" class="w-full text-xs px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+        </div>
+
+        <!-- Fotoğraf Yükleme -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Fotoğraf (Varsa)</label>
+          <input type="file" id="report-image-input" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer" />
+          
+          <div id="form-img-preview" class="hidden mt-2 relative w-full h-28 rounded-xl overflow-hidden border border-slate-200">
+            <img id="form-img-tag" src="" alt="Önizleme" class="w-full h-full object-cover" />
+          </div>
+        </div>
+
+        <!-- Güvenli İletişim: Instagram (Gizlilik Odaklı) -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-bold text-slate-700">🔒 Güvenli İletişim (Gizlilik)</label>
+            <span class="text-[10px] text-emerald-700 font-semibold">Telefon gizli tutulur</span>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Instagram Kullanıcı Adınız (@)</label>
+            <div class="relative">
+              <span class="absolute left-3 top-2 text-xs font-bold text-slate-400">@</span>
+              <input type="text" id="form-instagram" placeholder="kullanici_adiniz" class="w-full text-xs pl-7 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none" />
+            </div>
+            <p class="text-[10px] text-slate-400 mt-1">Sahiplenmek veya destek olmak isteyenler sizinle Instagram DM üzerinden güvenle iletişime geçer.</p>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">İsim veya Mahlasınız (İsteğe Bağlı)</label>
+            <input type="text" id="form-contact-name" placeholder="Örn: Melis" class="w-full text-xs px-3 py-1.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- Gönder Butonu -->
+        <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-600/30 transition">
+          Haritada İşaretle ve Yayınla 🐾
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 5. MODAL 2: VAKA DETAY & DESTEK AKSİYONLARI -->
+  <div id="detail-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div id="detail-modal-content" class="modal-content bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh]">
+      <!-- JS içerik basar -->
+    </div>
+  </div>
+
+  <!-- 6. MODAL 3: ACİL İLK YARDIM REHBERİ -->
+  <div id="firstaid-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🩹</span>
+          <h3 class="font-extrabold text-slate-900 text-sm sm:text-base">Sokak Hayvanı İlk Yardım Rehberi</h3>
+        </div>
+        <button onclick="window.sokakUI.closeFirstAidModal()" class="w-7 h-7 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-xs">
+          ✕
+        </button>
+      </div>
+      <div id="firstaid-modal-content" class="p-4 overflow-y-auto space-y-3">
+        <!-- JS kartları basar -->
+      </div>
+    </div>
+  </div>
+
+  <!-- BİLGİLENDİRME TOAST'I -->
+  <div id="toast-notification" class="fixed top-18 right-1/2 translate-x-1/2 z-50 px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none -translate-y-2 bg-slate-900/90 backdrop-blur-md text-white">
+    <span id="toast-text">Bildirim</span>
+  </div>
+
+  <!-- KOMPONENTLER -->
+  <script src="js/store.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
