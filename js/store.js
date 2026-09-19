@@ -3,7 +3,7 @@
  * Veri yönetimi, yerel depolama, gizlilik ve arşivleme altyapısı
  */
 
-const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v6';
+const STORAGE_KEY_REPORTS = 'sokakdostum_reports_v7';
 
 function createAnimalSVG(type) {
   let icon = '🐾';
@@ -28,8 +28,8 @@ const INITIAL_REPORTS = [
     title: 'Araba çarpmış yavru kedi - Acil nakil lazım',
     type: 'kedi',
     urgency: 'critical',
-    lat: 41.0255,
-    lng: 28.9742,
+    lat: 41.0345,
+    lng: 28.9785,
     locationName: 'Beyoğlu, İstiklal Cd.',
     description: 'Arka bacağında kırık şüphesi var. Bir kutunun içine aldık, acil kliniğe nakil desteği aranıyor.',
     image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80',
@@ -81,8 +81,8 @@ const INITIAL_REPORTS = [
     title: 'Terkedilmiş golden kırması köpek - Yuva Aranıyor',
     type: 'kopek',
     urgency: 'shelter',
-    lat: 40.9835,
-    lng: 29.0290,
+    lat: 40.9850,
+    lng: 29.0315,
     locationName: 'Kadıköy, Moda Sahil Parkı',
     description: 'Kırmızı tasması var, çok uysal ve insan canlısı. Yağmurda sığınacak sıcak bir yuva arıyor.',
     image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&auto=format&fit=crop&q=80',
@@ -98,8 +98,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil fırtınasında kulübeleri yıkılan canlar için mama desteği',
     type: 'kopek',
     urgency: 'hungry',
-    lat: 40.9680,
-    lng: 29.0620,
+    lat: 40.9710,
+    lng: 29.0650,
     locationName: 'Kadıköy, Caddebostan Sahil',
     description: 'Sahildeki besleme alanındaki mama kapları fırtınada uçmuş. Acil kuru mama takviyesi yapacak gönüllüler aranıyor.',
     image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format&fit=crop&q=80',
@@ -168,8 +168,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil kayalıklarında ayağı misinaya dolanmış martı',
     type: 'kus',
     urgency: 'critical',
-    lat: 41.0480,
-    lng: 29.0240,
+    lat: 41.0500,
+    lng: 29.0210,
     locationName: 'Beşiktaş, Ortaköy Sahili',
     description: 'Ayağına olta ipi ve kanca dolanmış, uçamıyor. Yakalayıp ipi kesecek veya veterinere götürecek yardımsever aranıyor.',
     image: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&auto=format&fit=crop&q=80',
@@ -240,8 +240,8 @@ const INITIAL_REPORTS = [
     title: 'Kanadı kırık güvercin',
     type: 'kus',
     urgency: 'injured',
-    lat: 41.0112,
-    lng: 28.9818,
+    lat: 41.0065,
+    lng: 28.9765,
     locationName: 'Fatih, Sultanahmet',
     description: 'Uçamıyor, karton kutuda korumada. Kanat cerrahisinden anlayan bir hekime götürülmesi gerek.',
     image: 'https://images.unsplash.com/photo-1522858547137-f1dcec554f55?w=600&auto=format&fit=crop&q=80',
@@ -327,8 +327,8 @@ const INITIAL_REPORTS = [
     title: 'Kuyruğu yaralı tekir kedi tedavi edildi ve sahiplendirildi 🎉',
     type: 'kedi',
     urgency: 'shelter',
-    lat: 41.0505,
-    lng: 29.0490,
+    lat: 41.0520,
+    lng: 29.0550,
     locationName: 'Üsküdar, Çengelköy Çınaraltı',
     description: 'Tedavisi tamamlanan uysal Çengelköy kedimiz yeni yuvasında çok mutlu!',
     image: 'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?w=600&auto=format&fit=crop&q=80',
@@ -363,8 +363,8 @@ const INITIAL_REPORTS = [
     title: 'Trafikte ezilme tehlikesi atlatan yavru kedi - Acil Nakil',
     type: 'kedi',
     urgency: 'transit',
-    lat: 41.1085,
-    lng: 29.0490,
+    lat: 41.1095,
+    lng: 29.0460,
     locationName: 'Sarıyer, Emirgan Sahil Yolu',
     description: 'Sahil yolunda orta refüjde sıkışmış halde bulundu. Taşıma çantasına aldık, kliniğe götürecek araç desteği rica ediyoruz.',
     image: 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600&auto=format&fit=crop&q=80',
@@ -382,8 +382,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil kayalıklarında düşüp sıkışan yaralı kedi',
     type: 'kedi',
     urgency: 'critical',
-    lat: 40.9635,
-    lng: 28.8310,
+    lat: 40.9680,
+    lng: 28.8320,
     locationName: 'Bakırköy, Yeşilköy Sahil Parkı',
     description: 'Kayaların arasına düşmüş, arka bacağı ezilmiş. Çevredekilerce çıkarıldı, acil cerrahi müdahale gerekiyor.',
     image: 'https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80',
@@ -418,8 +418,8 @@ const INITIAL_REPORTS = [
     title: 'Bacağında derin kesik olan sokak canı - Acil Dikiş & Tedavi',
     type: 'kopek',
     urgency: 'critical',
-    lat: 40.9300,
-    lng: 29.1360,
+    lat: 40.9350,
+    lng: 29.1410,
     locationName: 'Maltepe, Maltepe Sahil Dolgu Parkı',
     description: 'Kırık cam veya tele takılmış, bacağında ciddi kanama var. Baskı yapıldı ama kliniğe acil dikiş için nakil gerekiyor.',
     image: 'https://images.unsplash.com/photo-1530281700549-e82e7bf110d6?w=600&auto=format&fit=crop&q=80',
@@ -490,8 +490,8 @@ const INITIAL_REPORTS = [
     title: 'Sahil kayalıklarında titreyen yavru köpek için barınma',
     type: 'kopek',
     urgency: 'shelter',
-    lat: 40.8950,
-    lng: 29.1890,
+    lat: 40.8985,
+    lng: 29.1930,
     locationName: 'Kartal, Sahil Kordonboyu',
     description: 'Yağmurda ıslanmış ve üşümüş halde bulundu. Kurulandı, karnı doyuruldu ancak acil başını sokacak bir yuva lazım.',
     image: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=600&auto=format&fit=crop&q=80',
@@ -581,8 +581,8 @@ const INITIAL_REPORTS = [
     title: 'Marina civarında terkedilmiş yaşlı can için sıcak yuva',
     type: 'kopek',
     urgency: 'shelter',
-    lat: 40.8805,
-    lng: 29.2350,
+    lat: 40.8845,
+    lng: 29.2380,
     locationName: 'Pendik, Pendik Marina Sahil Parkı',
     description: 'Gözleri az görüyor, çok sakin ve uslu. Sokak köpeklerinden korkuyor, kalan ömrünü sıcak bir evde geçirmeli.',
     image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600&auto=format&fit=crop&q=80',
@@ -657,8 +657,8 @@ const INITIAL_REPORTS = [
     title: 'İskele meydanında kanadı incinmiş martı',
     type: 'kus',
     urgency: 'injured',
-    lat: 40.8740,
-    lng: 29.1265,
+    lat: 40.8725,
+    lng: 29.1240,
     locationName: 'Adalar, Büyükada İskele Meydanı',
     description: 'Yere inmiş, kalkamıyor. Adaya gelen veya adadaki veteriner hekimle irtibat kurulması rica olunur.',
     image: 'https://images.unsplash.com/photo-1522858547137-f1dcec554f55?w=600&auto=format&fit=crop&q=80',
@@ -1231,30 +1231,31 @@ class SokakDostumStore {
 
   init() {
     try {
+      // Eski önbellek ve deniz koordinatlı tüm sürümleri temizle
+      const staleKeys = [
+        'sokak_dostum_reports',
+        'sokakdostum_reports_v1',
+        'sokakdostum_reports_v2',
+        'sokakdostum_reports_v3',
+        'sokakdostum_reports_v4',
+        'sokakdostum_reports_v5',
+        'sokakdostum_reports_v6'
+      ];
+      staleKeys.forEach(k => {
+        try { localStorage.removeItem(k); } catch (err) {}
+      });
+
       const saved = localStorage.getItem(STORAGE_KEY_REPORTS);
       if (saved) {
         this.reports = JSON.parse(saved);
-        
-        // Kara koordinatı senkronizasyonu: INITIAL_REPORTS içindeki güncel kara koordinatlarını zorunlu güncelle
+        // Kara koordinatlarını INITIAL_REPORTS ile daima birebir senkronize et
         const initialMap = new Map(INITIAL_REPORTS.map(r => [r.id, r]));
         this.reports = this.reports.map(r => {
           if (initialMap.has(r.id)) {
             const initItem = initialMap.get(r.id);
-            return { ...r, lat: initItem.lat, lng: initItem.lng, locationName: initItem.locationName };
-          }
-          // Deniz koordinatında kalmış eski test vakalarını karaya taşı (Sarayburnu açıkları kontrolü)
-          if (r.lat >= 41.000 && r.lat <= 41.025 && r.lng >= 40.970 && r.lng <= 29.010) {
-            return { ...r, lat: 41.0370, lng: 28.9850, locationName: 'Beyoğlu, Taksim' };
+            return { ...r, lat: initItem.lat, lng: initItem.lng };
           }
           return r;
-        });
-
-        // Yeni eklenen vakaları otomatik birleştir
-        const existingIds = new Set(this.reports.map(r => r.id));
-        INITIAL_REPORTS.forEach(initR => {
-          if (!existingIds.has(initR.id)) {
-            this.reports.push(initR);
-          }
         });
         this.persistReports();
       } else {

@@ -1,9 +1,9 @@
 /**
  * SokakDostum - Service Worker
- * Çevrimdışı önbellekleme ve PWA desteği
+ * Çevrimdışı önbellekleme ve PWA desteği (Network-First Stratejisi)
  */
 
-const CACHE_NAME = 'sokak-dostum-v1';
+const CACHE_NAME = 'sokak-dostum-v2.5';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -42,22 +42,41 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Harita tile'ları veya harici kütüphaneleri ağdan al, statik shell'i önbellekten sun
   if (event.request.method !== 'GET') return;
 
+  const url = new URL(event.request.url);
+  const isLocal = url.origin === self.location.origin;
+
+  // Yerel proje dosyaları: Ağ öncelikli (Network First) - Canlı güncellemelerin anında tarayıcıya yansıması için
+  if (isLocal) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const resClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, resClone));
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(event.request).then((cached) => {
+            if (cached) return cached;
+            if (event.request.headers.get('accept')?.includes('text/html')) {
+              return caches.match('./index.html');
+            }
+          });
+        })
+    );
+    return;
+  }
+
+  // Harici kaynaklar: Önbellek öncelikli
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
         return cachedResponse;
       }
-      return fetch(event.request).then((networkResponse) => {
-        return networkResponse;
-      }).catch(() => {
-        // Çevrimdışı ve önbellekte yoksa index.html'e fallback
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('./index.html');
-        }
-      });
+      return fetch(event.request);
     })
   );
 });
