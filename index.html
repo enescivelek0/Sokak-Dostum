@@ -78,6 +78,11 @@
           <span class="hidden sm:inline">İlk Yardım</span>
         </button>
 
+        <button onclick="window.sokakUI.openPolicyModal()" class="p-1.5 sm:px-2.5 sm:py-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 rounded-xl text-slate-600 text-xs font-semibold transition flex items-center gap-1" title="Gizlilik ve Kullanım İlkeleri">
+          <span>🛡️</span>
+          <span class="hidden md:inline">İlkeler</span>
+        </button>
+
         <button onclick="window.sokakUI.openNewReportModal()" class="py-1.5 px-3 sm:px-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/25 transition flex items-center gap-1.5">
           <span class="text-sm">🚨</span>
           <span>Vaka Bildir</span>
@@ -152,6 +157,17 @@
     <!-- Dinamik Kartlar Listesi (Scrollable) -->
     <div id="panel-items-container" class="flex-1 overflow-y-auto p-3 space-y-2.5">
       <!-- JS kartları basar -->
+    </div>
+
+    <!-- Panel Sabit Alt Barı: Telif & Gizlilik Politikası Butonu -->
+    <div class="px-3.5 py-2.5 border-t border-slate-200/70 bg-white/80 backdrop-blur-xs shrink-0 flex items-center justify-between text-[11px]">
+      <div class="flex items-center gap-1.5 text-slate-500">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+        <span class="font-medium">SokakDostum &bull; Kâr Amacı Gütmez</span>
+      </div>
+      <button onclick="window.sokakUI.openPolicyModal()" class="font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 transition">
+        <span>🔒 Gizlilik & İlkeler</span>
+      </button>
     </div>
 
   </aside>
@@ -274,7 +290,7 @@
               <span class="absolute left-3 top-2 text-xs font-bold text-slate-400">@</span>
               <input type="text" id="form-instagram" placeholder="kullanici_adiniz" class="w-full text-xs pl-7 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none" />
             </div>
-            <p class="text-[10px] text-slate-400 mt-1">Sahiplenmek veya destek olmak isteyenler sizinle Instagram DM üzerinden güvenle iletişime geçer.</p>
+            <p class="text-[10px] text-slate-500 mt-1">Sahiplenmek veya destek olmak isteyenler sizinle Instagram DM üzerinden güvenle iletişime geçer. <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-blue-600 hover:underline font-semibold">Gizlilik İlkeleri</button></p>
           </div>
 
           <div>
@@ -315,6 +331,86 @@
       <div id="firstaid-modal-content" class="p-4 overflow-y-auto space-y-3">
         <!-- JS kartları basar -->
       </div>
+    </div>
+  </div>
+
+  <!-- 7. MODAL 4: GİZLİLİK VE KULLANIM POLİTİKASI -->
+  <div id="policy-modal" class="modal-overlay fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="modal-content bg-white w-full max-w-lg rounded-3xl shadow-2xl border border-slate-100 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <!-- Modal Başlık -->
+      <div class="px-5 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-base shadow-xs">
+            🛡️
+          </div>
+          <div>
+            <h3 class="font-extrabold text-slate-900 text-sm sm:text-base leading-none">Gizlilik ve Kullanım Politikası</h3>
+            <span class="text-[10px] text-blue-700 font-bold">Açık İmece &amp; Dayanışma İlkeleri</span>
+          </div>
+        </div>
+        <button onclick="window.sokakUI.closePolicyModal()" class="w-7 h-7 rounded-full bg-slate-200/80 hover:bg-slate-300 text-slate-700 flex items-center justify-center text-xs transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Politika Maddeleri (Scrollable) -->
+      <div class="p-5 overflow-y-auto space-y-3.5 text-xs text-slate-600">
+        
+        <!-- Madde 1: Telefon ve Kişisel Veri Gizliliği -->
+        <div class="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100">
+          <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
+            <span>🔒</span>
+            <h4>Kişisel Gizlilik ve Telefon Güvenliği</h4>
+          </div>
+          <p class="text-[11px] leading-relaxed text-slate-600">
+            SokakDostum platformunda kullanıcıların cep telefon numaraları herkese açık olarak <strong>asla listelenmez ve saklanmaz</strong>. İhbar sahibine veya sahiplendirene ulaşmak isteyen yardımseverler, doğrudan <strong>Instagram DM</strong> (<code class="bg-blue-100 text-blue-800 px-1 py-0.5 rounded text-[10px]">@kullaniciadi</code>) üzerinden güvenli kanal ile iletişime geçer. Bu sayede numara sızıntısı, spam ve kötü niyetli aramaların önüne geçilir.
+          </p>
+        </div>
+
+        <!-- Madde 2: Kâr Amacı Gütmeme & Sıfır Nakit Komisyonu -->
+        <div class="p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100">
+          <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
+            <span>🚫</span>
+            <h4>Kâr Amacı Gütmeme &amp; Sıfır Nakit Politikası</h4>
+          </div>
+          <p class="text-[11px] leading-relaxed text-slate-600">
+            SokakDostum tamamen kâr amacı gütmeyen, açık kaynaklı ve topluluk odaklı bir dayanışma ağıdır. Platform üzerinde şahsi IBAN paylaşımı, nakit para transferi veya ücretli yardım kampanyaları <strong>kesinlikle yasaktır</strong>. Tedavi ve besleme yardımları; doğrudan veteriner kliniklerine ödeme yapılarak ya da fiziksel mama ulaştırılarak şeffaf şekilde yürütülmelidir.
+          </p>
+        </div>
+
+        <!-- Madde 3: Sahiplendirme ve Arşivleme İlkeleri -->
+        <div class="p-3.5 rounded-2xl bg-purple-50/60 border border-purple-100">
+          <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
+            <span>🐾</span>
+            <h4>Sahiplendirme, Ticaret Yasağı &amp; Arşivleme</h4>
+          </div>
+          <p class="text-[11px] leading-relaxed text-slate-600">
+            Hayvanların satışı, para karşılığı devri veya ticari üretimi kati suretle yasaktır. İlan veren kişi sokak hayvanı için güvenli bir yuva bulduğunda, <em>"Yuva Buldu Olarak İşaretle"</em> butonu ile ilanı derhal aktif haritadan kaldırıp başarıyla <strong>Arşiv</strong> bölümüne taşımakla yükümlüdür.
+          </p>
+        </div>
+
+        <!-- Madde 4: Acil Müdahale ve Sorumluluk Reddi -->
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+          <div class="flex items-center gap-2 font-bold text-slate-900 mb-1.5 text-xs sm:text-sm">
+            <span>⚖️</span>
+            <h4>Sorumluluk Reddi ve Tıbbi Tavsiye Uyarısı</h4>
+          </div>
+          <p class="text-[11px] leading-relaxed text-slate-600">
+            Platformdaki harita işaretlemeleri ve ilk yardım rehberi halk bilgilendirmesi ve gönüllü koordinasyonu amaçlıdır. Hiçbir içerik resmi bir veteriner hekimin uzman teşhis ve tedavisinin yerine geçemez. Ağır yaralanma, zehirlenme ve trafik kazalarında derhal en yakın 7/24 açık nöbetçi kliniğe başvurulmalıdır.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Alt Kapat / Kabul Butonu -->
+      <div class="px-5 py-3 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between">
+        <span class="text-[10px] text-slate-600 font-semibold">Tüm hakları sokak canlarının refahına aittir.</span>
+        <button onclick="window.sokakUI.closePolicyModal()" class="py-2 px-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md shadow-blue-600/20 transition">
+          Anladım ve Kabul Ediyorum
+        </button>
+      </div>
+
     </div>
   </div>
 

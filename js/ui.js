@@ -61,6 +61,23 @@ class SokakDostumUI {
         }
       });
     }
+
+    // Modal Dışına Tıklama ve Escape Tuşu ile Kapatma
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.active').forEach(overlay => {
+          overlay.classList.remove('active');
+        });
+      }
+    });
   }
 
   setSheetState(state) {
@@ -502,7 +519,9 @@ class SokakDostumUI {
             <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
               <span>🔒 Güvenli İletişim</span>
             </span>
-            <span class="text-[10px] text-slate-400">Telefon numaraları gizli tutulur</span>
+            <button type="button" onclick="window.sokakUI.openPolicyModal()" class="text-[10px] text-blue-600 hover:underline font-semibold flex items-center gap-0.5">
+              <span>Gizlilik Politikamız</span> ↗
+            </button>
           </div>
 
           ${report.instagram ? `
@@ -611,6 +630,17 @@ class SokakDostumUI {
 
   closeFirstAidModal() {
     const modal = document.getElementById('firstaid-modal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  // --- GİZLİLİK VE KULLANIM POLİTİKASI MODALI ---
+  openPolicyModal() {
+    const modal = document.getElementById('policy-modal');
+    if (modal) modal.classList.add('active');
+  }
+
+  closePolicyModal() {
+    const modal = document.getElementById('policy-modal');
     if (modal) modal.classList.remove('active');
   }
 
